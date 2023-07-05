@@ -1,0 +1,145 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/tela_compras.css'%}">
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <title>Conveniência SCI</title>
+</head>
+
+    <body>
+        <a class="logo" href="">
+            <img width="400px" src="{% static 'img/logo-sci.png'%}">
+        </a>
+        <form class="realiza-compra" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Codigo de Barras" name="codigo_de_barras">
+            <input type="submit" value="+">
+        </form>
+        <div class="tabela">
+            <table>
+                <tr>
+                    <th style="width: 300px;">Produto</th>
+                    <th style="width: 150px;">Preco</th>
+                    <th style="text-align: center; width: 50px;">Remover</th>
+                </tr>
+                {% for produtos in carrinho %}
+                <tr>
+                    <td>{{produtos.nome}}</td>
+                    <td>{{produtos.preco}}</td>
+                    <td style="text-align: center;">
+                        <a href="{% url 'remover_produto' forloop.counter %}"><img width="30px" src="{% static 'img/remov-item.png'%}"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                <tr style="background-color: #dbe7fd;">
+                    <td style="font-weight: 700;">Preço Final</td>
+                    <td style="font-weight: 700;">{{soma_precos}}</td>
+                    <td style="text-align: center;">
+                        <a href="{% url 'limpar_carrinho' %}"><img width="35px" src="https://i.imgur.com/4YkmoMj.png"></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="container-finalizar-compra">
+            <button type="button" class="botao-finaliza-compra" title="Finalizar a compra!" onclick="openLoginModal('finalizar')">Finalizar</button>
+            <button type="button" class="botao-finaliza-compra" title="Mostra quanto foi gasto no período!" onclick="openLoginModal('gastos')">Gastos</button>
+        </div>
+        
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <h2>Realizar Login</h2>
+                <form id="loginForm" method="post">
+                    {% csrf_token %}
+                    <input type="text" name="login" placeholder="Login">
+                    <input type="password" name="senha" placeholder="Senha">
+                    <div class="botoes-modal">
+                        <input type="submit" id="modalSubmitButton" value="Comprar">
+                    </div>
+                </form>
+                <button type="button" onclick="closeLoginModal()">Cancelar</button>
+            </div>
+        </div>
+
+        {% if total is not None %}
+            <div id="modalCompra" class="modal-compra-finalizada">
+                <div class="modal-content">
+                    <p>Total gasto na referência passada: R$ {{total_anterior}} </p>
+                    <p>Total gasto na referência atual: R$ {{total}}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    
+        <script>
+            function openLoginModal(action) {
+                var modal = document.getElementById("loginModal");
+                var form = document.getElementById('loginForm');
+                var submitButton = document.getElementById('modalSubmitButton');
+
+                if (action === 'finalizar') {
+                    form.action = "{% url 'finaliza_compra' %}";
+                    submitButton.value = 'Comprar';
+                } else if (action === 'gastos') {
+                    form.action = "{% url 'mostra_gasto' %}";
+                    submitButton.value = 'Mostrar Gastos';
+                }
+
+                modal.style.display = "flex";
+            }
+
+            function closeLoginModal() {
+                var modal = document.getElementById("loginModal");
+                window.location.href = "{% url 'realizar_compras' %}";
+                modal.style.display = "none";
+            }
+
+            var modalCompra = document.querySelector('#modalCompra');
+
+            setTimeout(function() {
+                modalCompra = modalCompra.style.display = "none";
+                window.location.href = "{% url 'realizar_compras'%}"
+            }, 5000);
+        </script>
+
+        <script>
+            const successMessage = document.querySelector('.success');
+            const errorMessage = document.querySelector('.error');
+
+            if (successMessage) {
+                const duration = 3000;
+
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, duration);
+            }
+
+            if (errorMessage) {
+                const duration = 3000;
+
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, duration);
+            }
+        </script>
+    </body>
+</html>

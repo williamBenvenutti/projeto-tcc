@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{% static 'css/telas_cadastro.css'%}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+    
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+            <ul class="nav-list">
+                <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+                <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+                {% if user.is_superuser %}
+                    <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+                {% endif %}
+                <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+                <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+        <form action="{% url 'cadastro_usuario' %}" method="POST" class="container-form">
+            {% csrf_token %}
+            <input type="text" id="nomeInput" name="first_name" value="{{first_name|default_if_none:''}}" placeholder="Nome" required>
+            <input type="text" id="sobrenomeInput" name="last_name" value="{{last_name|default_if_none:''}}" placeholder="Sobrenome" required>
+            <input type="text" id="usernameInput" name="username" value="{{username|default_if_none:''}}"  placeholder="Usuário" required>
+            <input type="email" name="email" placeholder="Email" value="{{email|default_if_none:''}}" required>
+            <input type="password" name="password" placeholder="Senha" required>
+            <div class="button-container">
+                <input class="botoes-editar" type="submit" value="Cadastrar">
+                <a class="botoes-editar" href="{% url 'mostra_usuario'%}">Cancelar</a>
+            </div>
+        </form>
+
+        {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    <script>
+        const successMessage = document.querySelector('.success');
+        const errorMessage = document.querySelector('.error');
+
+        if (successMessage) {
+            const duration = 3000;
+
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, duration);
+        }
+
+        if (errorMessage) {
+            const duration = 3000;
+
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, duration);
+        }
+    </script>
+
+    <script>
+        function formatarNomeSobrenome() {
+            var nomeInput = document.getElementById('nomeInput');
+            var sobrenomeInput = document.getElementById('sobrenomeInput');
+            var usernameInput = document.getElementById('usernameInput');
+
+            var nome = nomeInput.value.trim().toLowerCase();
+            var sobrenome = sobrenomeInput.value.trim().toLowerCase();
+            var login = nome + '.' + sobrenome;
+
+            nome = nome.charAt(0).toUpperCase() + nome.slice(1);
+            sobrenome = sobrenome.charAt(0).toUpperCase() + sobrenome.slice(1);
+
+            usernameInput.value = login;
+            nomeInput.value = nome;
+            sobrenomeInput.value = sobrenome
+        }
+
+        var nomeInput = document.getElementById('nomeInput');
+        var sobrenomeInput = document.getElementById('sobrenomeInput');
+
+        nomeInput.addEventListener('input', formatarNomeSobrenome);
+        sobrenomeInput.addEventListener('input', formatarNomeSobrenome);
+    </script>
+</body>
+</html>

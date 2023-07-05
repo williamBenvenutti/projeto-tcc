@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+        <link rel="stylesheet" href="{% static 'css/telas_cadastro.css'%}">
+        <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+        <title>Editar Usuário</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+                <ul class="nav-list">
+                    <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+                    <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+                    {% if user.is_superuser %}
+                        <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+                    {% endif %}
+                    <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+                    <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+            <form action="{% url 'editar_usuario' users.id %}" method="POST" class="container-form">
+              {% csrf_token %}
+              <input type="text" name="first_name" placeholder="Nome" value="{{users.first_name}}">
+              <input type="text" name="last_name" placeholder="Sobrenome" value="{{users.last_name}}">
+              <input type="text" name="username" placeholder="Usuário" value="{{users.username}}">
+              <input type="email" name="email" placeholder="Email" value="{{users.email}}">
+              <a href="{% url 'altera_senha' users.id %}">Alterar Senha</a>
+              <div class="button-container">
+                <input class="botoes-editar" type="submit" name="salvar" value="Salvar">
+                <a class="botoes-editar" style="background-color: rgb(156, 0, 0);" href="{% url 'exclui_usuario' users.id %}" name="excluir" value="Excluir">Excluir</a>
+                <a class="botoes-editar" href="{% url 'mostra_usuario' %}">Voltar</a>
+            </form>
+        </div>
+    </body>
+</html>

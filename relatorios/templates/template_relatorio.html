@@ -1,0 +1,63 @@
+{% load static %}
+<html>
+<head>
+    <title>Relatório de Compras</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 45%;
+        }
+        
+        th, td {
+            padding: 8px;
+            max-width: 200px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        th {
+            background-color: #dbe7fd;
+        }
+    </style>
+</head>
+<body>
+    <img width="400px" src="{% static 'img/logo-sci.png'%}">
+    <h1>Relatório de Compras</h1>
+    
+    {% if funcionario.nome %}
+        <h2> Funcionario: {{funcionario.nome}}</h2>
+    {% else %}
+        <h2>Relatório Geral</h2>
+    {% endif %}
+    <h3>Compras realizadas:</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Data e Hora</th>
+                <th>Produto</th>
+                <th>Quantidade</th>
+                <th>Preço Individual</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra in compras %}
+                {% for item in compra.itemcompra_set.all %}
+                    <tr>
+                        <td>{{ compra.data_compra }}</td>
+                        <td>{{ item.produto.nome }}</td>
+                        <td>{{ item.quantidade }}</td>
+                        <td>{{ item.preco_individual }}</td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

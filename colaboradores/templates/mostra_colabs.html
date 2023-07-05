@@ -1,0 +1,115 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Colabs</title>
+    <link rel="stylesheet" href="{% static 'css/telas_listagem.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+</head>
+    <body>
+        <header>
+          <nav style="margin-bottom: 30px;">
+            <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+            <ul class="nav-list">
+            <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+            <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+            {% if user.is_superuser %}
+            <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+            {% endif %}
+            <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+            <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+          </nav>
+        </header>
+
+        <div class="header">
+          <div class="quantidade">
+            <a class="btn-barra-pesquisa" href="{% url 'cadastra_colabs' %}">Adicionar</a>
+          </div>
+          <div class="busca-produto">
+            <input type="text" name="search" placeholder="Buscar Colaborador">
+          </div>
+        </div> 
+
+        <div class="tabela">
+            <table>
+                <tr>
+                    <th style="min-width: 180px; max-width: 180px;">Nome</th>
+                    <th>CPF</th>
+                    <th style="text-align: center;">Situação</th>
+                    <th style="text-align: center;">Editar</th>
+                </tr>
+                {% for colab in colabs %}
+                <tr>
+                    <td>{{colab.nome}}</td>
+                    <td>{{colab.cpf}}</td>
+                    {% if colab.situacao %}
+                        <td style="color: green; text-align: center;">Ativo</td>
+                    {% else %}
+                        <td style="color: red; text-align: center;">Inativo</td>
+                    {% endif %}
+                    <td style="text-align: center;">
+                      <a href="{% url 'editar_colab' colab.id %}"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+        {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <script>
+          var input = document.querySelector('.busca-produto input[type="text"]');
+          var table = document.querySelector('table');
+
+          input.addEventListener('input', function() {
+            var searchText = input.value.toLowerCase();
+
+            var rows = table.querySelectorAll('tr:not(:first-child)');
+
+            rows.forEach(function(row) {
+              var name = row.cells[0].textContent.toLowerCase(); 
+
+              if (name.includes(searchText)) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        </script>
+        <script>
+          const successMessage = document.querySelector('.success');
+          const errorMessage = document.querySelector('.error');
+
+          if (successMessage) {
+              const duration = 3000;
+
+              setTimeout(function() {
+                  successMessage.style.display = 'none';
+              }, duration);
+          }
+
+          if (errorMessage) {
+              const duration = 3000;
+
+              setTimeout(function() {
+                  errorMessage.style.display = 'none';
+              }, duration);
+          }
+      </script>
+    </body>
+</html>

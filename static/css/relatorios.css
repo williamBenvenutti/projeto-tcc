@@ -1,0 +1,58 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+}
+
+input[type="text"],
+input[type="date"],
+select {
+    display: block;
+    width: 300px;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid black;
+    outline: none;
+    font-size: 1rem;
+}
+
+h1{
+    color: #1f468e;
+    margin-bottom: 30px;
+    font-size: 30px;
+}
+
+.formulario-relatorio{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.opcao {
+    display: grid;
+    align-items: center;
+    vertical-align: bottom;
+}
+
+
+label{
+    font-size: 20px;
+}
+
+.gerar-botao {
+    margin-top: 35px;
+    margin-left: auto;
+
+}
+
+.botao-gerar {
+    padding: 10px 20px;
+    background-color: #1f468e;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+}

@@ -1,0 +1,220 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5%;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+.realiza-compra {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.realiza-compra input[type='text'] {
+    padding: 12px;
+    width: 300px;
+    border: 1px solid #1f468e;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.2s;
+}
+
+.realiza-compra input[type='submit'] {
+    padding: 0;
+    width: 45px;
+    height: 45px;
+    color: white;
+    background-color: #1f468e;
+    border-radius: 5px;
+    transition: 0.2s;
+    margin-left: 5px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+table {
+    margin-top: 50px;
+    border-collapse: collapse;
+    max-height: 1000px;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 20px;
+}
+
+th {
+    background-color: #dbe7fd;
+}
+
+.tabela {
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    position: relative;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-compra-finalizada {
+    display: flex;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    justify-content: center;
+    margin: 0 auto;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background-color: #dbe7fd;
+    padding: 50px;
+    border: 1px solid #888;
+    width: 400px;
+    height: 200px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+
+}
+
+
+.modal-content input[type='text'],
+input[type='password'] {
+    padding: 12px;
+    width: 300px;
+    border: 1px solid #1f468e;
+    border-radius: 5px;
+    outline: none;
+    transition: 0.2s;
+    margin-top: 10px;
+}
+
+.botoes-modal {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.botoes-modal button,
+.botoes-modal input[type="submit"] {
+    width: auto;
+    height: auto;
+    padding: 8px 16px;
+    border-radius: 7px;
+    background-color: #1f468e;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.botoes-modal button:hover,
+.botoes-modal input[type="submit"]:hover {
+    background-color: #16528f;
+}
+.finaliza-compra{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.botao-finaliza-compra{
+    margin-top: 20px;
+    text-align: center;
+    background: #1f468e;
+    border-radius: 5px;
+    color: #ffffff;
+    padding: 10px;
+    text-decoration: none;
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
+    outline: none !important;
+}
+.container-finalizar-compra{
+    margin-top: 10px;
+}
+
+input[type="submit"] {
+    border: none;
+    background-color: #1f468e; /* Cor de fundo do botão */
+    color: white; /* Cor do texto do botão */
+    /* Adicione outros estilos personalizados conforme necessário */
+  }
+
+  .popup {
+    position: fixed;
+    top: 50px;
+    right: 50px;
+    border-radius: 5px;
+    text-align: center;
+    opacity: 1;
+    transition: opacity 0.3s;
+    z-index: 999;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: white;
+}
+
+.popup .sucess{
+  background-color: green;
+  padding: 10px;
+  width: 270px;
+}
+.popup .error{
+  background-color: #1f468e;
+  color: white;
+  padding: 10px;
+  width: 270px;
+}
+
+.popup .fade-out {
+    opacity: 0;
+}
+
+.tabela {
+    position: sticky;
+    top: 0;
+    background-color: white;
+}

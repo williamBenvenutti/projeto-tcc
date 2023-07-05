@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compra realizada na conveniência</title>
+    <style>
+        body{
+            margin-top: 20px;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        table {
+            margin-top: 15px;
+            border-collapse: collapse;
+            width: 50%;
+        }
+
+        th,
+        td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 20px;
+        }
+
+        th {
+            background-color: #dbe7fd;
+        }
+
+        .tabela {
+            display: flex;
+            margin: 0 auto;
+            justify-content: center;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <img width="300px" src="https://i.imgur.com/b9Qmr49.png">
+    <h1>Olá, {{colaborador.nome}}</h1>
+    <p style="font-size: 20px;">Você acabou de realizar a compra dos seguintes produtos na conveniência da SCI:</p>
+    <div class="tabela">
+        <table>
+            <tr>
+                <th>Produto</th>
+                <th style="text-align: center;">Preço</th>
+            </tr>
+            {% for produto in carrinho%}
+            <tr>
+                <td>{{produto.nome}}</td>
+                <td style="text-align: center;">{{produto.preco}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <h1 style="font-size: 20px;">Total da compra: {{final_compra}}</h1>
+</body>
+</html>

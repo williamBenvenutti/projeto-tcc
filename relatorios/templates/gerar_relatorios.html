@@ -1,0 +1,96 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Gerar Relatórios</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+    <link rel="stylesheet" href="{% static 'css/telas_cadastro.css'%}">
+    <link rel="stylesheet" href="{% static 'css/relatorios.css'%}">
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+            <ul class="nav-list">
+                <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+                <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+                {% if user.is_superuser %}
+                    <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+                {% endif %}
+                <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+                <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h1>Relatório de Colaboradores</h1>
+        <form action="{% url 'relatorio_colab' %}" class="formulario-relatorio" method="post">
+            {%csrf_token%}
+            <div class="opcao">
+            <label>Colaborador</label>
+                <select name="colaborador">
+                {% for colab in colabs %}
+                    <option value="{{colab.id}}" >{{colab.nome}}</option>
+                {% endfor %}
+                </select>
+            </div>
+            <div class="opcao">
+                <label>Data Inicio</label>
+                <input type="date" name="data_inicial">
+            </div>
+            <div class="opcao">
+                <Label>Data Término</Label>
+                <input type="date" name="data_final">
+            </div>
+            <div class="gerar-botao">
+                <input class="botao-gerar" type="submit" value="Gerar">
+            </div>
+        </form>
+    </div>
+    
+    <div class="container">
+        <h1>Relatório Produtos</h1>
+        <form action="{% url 'relatorio_produto' %}" class="formulario-relatorio" method="post">
+            {%csrf_token%}
+            <div class="opcao">
+                <label>Colaborador</label>
+                    <select name="produto">
+                    {% for produto in produtos %}
+                        <option value="{{produto.id}}" >{{produto.nome}}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            <div class="opcao">
+                <label>Data Inicio</label>
+                <input type="date" name="data_inicial">
+            </div>
+            <div class="opcao">
+                <Label>Data Término</Label>
+                <input type="date" name="data_final">
+            </div>
+            <div class="gerar-botao">
+                <input class="botao-gerar" type="submit" value="Gerar">
+            </div>
+        </form>
+    </div>
+
+    <div class="container">
+        <h1>Relatório Geral</h1>
+        <form action="{% url 'gerar_relatorios' %}" class="formulario-relatorio" method="post">
+            {%csrf_token%}
+            <div class="opcao">
+                <label>Data Inicio</label>
+                <input type="date" name="data_inicial">
+            </div>
+            <div class="opcao">
+                <Label>Data Término</Label>
+                <input type="date" name="data_final">
+            </div>
+            <div class="gerar-botao">
+                <input class="botao-gerar" type="submit" value="Gerar">
+            </div>
+        </form>
+        <h3 style="margin-top: 100px;">Caso queira de todo periodo, deixe a data em branco.</h3>
+    </div>
+</html>

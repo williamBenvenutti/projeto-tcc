@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login</title>
+        <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    </head>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            align-items: center;
+            margin: 0 auto;
+            justify-content: center;
+        }
+        .container{
+            display: flex;
+            flex-direction: column;
+            margin: 0 auto;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            margin-top: 300px;
+        }
+        input[type="text"],
+        input[type="password"]{
+            margin-bottom: 10px;
+            padding: 10px;
+            width: 250px;
+            border: 1px solid #1f468e;
+            border-radius: 5px;
+            outline: none;
+            transition: 0.2s;
+            letter-spacing: 1px;
+        }
+        .botao-login{
+            margin-top: 10px;
+            background-color: #1f468e;
+            font-size: 17px;
+            text-decoration: none;
+            color: white;
+            padding: 5px;
+            width: 95px !important;
+            border-radius: 7px;
+        }
+        .container-form{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        input[type="submit"] {
+            border: none;
+            background-color: #1f468e; /* Cor de fundo do botão */
+            color: white; /* Cor do texto do botão */
+            /* Adicione outros estilos personalizados conforme necessário */
+        }
+    </style>
+    <body>
+        <div class="container">
+            <img  width="500px" src="{% static 'img/logo-sci.png'%}">
+            <form  action="{% url 'logar' %}" method="POST" class="container-form">
+                {% csrf_token %}
+                <input type="text" name="username" placeholder="Usuario">
+                <input type="password" name="password" placeholder="Senha">
+                <input type="submit" class="botao-login" value="Login">
+            </form>
+        </div>
+
+        {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    </body>
+    <script>
+        var input = document.querySelector('.busca-produto input[type="text"]');
+        var table = document.querySelector('table');
+
+        input.addEventListener('input', function() {
+          var searchText = input.value.toLowerCase();
+
+          var rows = table.querySelectorAll('tr:not(:first-child)');
+
+          // Itera sobre as linhas da tabela
+          rows.forEach(function(row) {
+            var name = row.cells[0].textContent.toLowerCase(); 
+
+            if (name.includes(searchText)) {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+    </script>
+</html>
+

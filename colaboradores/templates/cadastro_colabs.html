@@ -1,0 +1,133 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/telas_cadastro.css'%}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+    
+    <title>Cadastro Colabs</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+            <ul class="nav-list">
+                <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+                <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+                {% if user.is_superuser %}
+                    <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+                {% endif %}
+                <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+                <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <form method="post" class="container-form" onsubmit="gerarSenha()">
+        {% csrf_token %}
+        <input type="text" id="nomeInput" name="nome" placeholder="Nome Completo" value="{{ nome|default_if_none:'' }}" required>
+        <input type="text" id="cpfInput" name="cpf" placeholder="CPF" minlength="14" maxlength="14" value="{{ cpf|default_if_none:'' }}" required>
+        <input type="email" id="emailInput" name="email" placeholder="Email" value="{{ email|default_if_none:'' }}" required>
+        <input type="text" id="loginInput" name="login" placeholder="Login" value="{{ login|default_if_none:'' }}" required>
+        <input style="display: none;" type="password" id="senhaInput" name="senha" placeholder="Senha" value="senhapadrao" required>
+        <div class="checbox">
+            <label>Atividade do Funcionário</label>
+            <input type="checkbox" name="situacao" value="true" {% if situacao %}checked{% endif %}>
+        </div>
+        <div class="button-container">
+            <input class="botoes-editar" type="submit" value="Cadastrar">
+            <a class="botoes-editar" href="{% url 'mostra_colabs' %}">Voltar</a>
+        </div>
+    </form>
+    
+    {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    <script>
+        function formatarCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            cpf = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+            return cpf;
+        }
+
+        function mascararCPF(input) {
+            var cpf = input.value;
+            var cpfFormatado = formatarCPF(cpf);
+            input.value = cpfFormatado;
+        }
+
+        function formatarNome() {
+            var nomeInput = document.getElementById('nomeInput');
+            var loginInput = document.getElementById('loginInput');
+
+            var nome = nomeInput.value;
+            var nomeFormatado = nome.toLowerCase().replace(/\b\w/g, function (char) {
+                return char.toUpperCase();
+            });
+            var login = nome.replace(/\s+/g, '.').toLowerCase();
+
+            loginInput.value = login;
+            nomeInput.value = nomeFormatado;
+        }
+
+        function gerarSenha() {
+            var loginInput = document.getElementById('loginInput');
+            var cpfInput = document.getElementById('cpfInput');
+            var senhaInput = document.getElementById('senhaInput');
+            var senhaGerada = '';
+
+            var login = loginInput.value.toLowerCase().replace(/\s+/g, '.');
+            var cpf = cpfInput.value.replace(/\D/g, '');
+
+            senhaGerada = login.substring(0, login.indexOf('.')) + cpf.substring(0, 3);
+
+            senhaInput.value = senhaGerada;
+        }
+
+        var nomeInput = document.getElementById('nomeInput');
+        nomeInput.addEventListener('input', formatarNome);
+
+        var cpfInput = document.getElementById('cpfInput');
+        cpfInput.addEventListener('input', function() {
+            mascararCPF(this);
+        });
+
+    </script>
+
+    <script>
+        const successMessage = document.querySelector('.success');
+        const errorMessage = document.querySelector('.error');
+
+        if (successMessage) {
+            const duration = 3000;
+
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, duration);
+        }
+
+        if (errorMessage) {
+            const duration = 3000;
+
+            setTimeout(function() {
+                errorMessage.style.display = 'none';
+            }, duration);
+        }
+    </script> 
+</body>
+</html>

@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/telas_cadastro.css'%}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <title>Cadastrar Produtos</title>
+</head>
+    <body> 
+        <header>
+            <nav>
+                <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+                <ul class="nav-list">
+                    <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+                    <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+                    {% if user.is_superuser %}
+                        <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+                    {% endif %}
+                    <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+                    <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <form method="post" class="container-form">
+            {% csrf_token %}
+            <input type="text" placeholder="Nome do Produto" name="nome_produto" value="{{ nome_produto|default_if_none:'' }}" required>
+            <input type="text" placeholder="Código de Barras" name="codigo_de_barras" value="{{ codigo_de_barras|default_if_none:''}}" maxlength="15" required>
+            <input type="number" step="0.01" placeholder="Preço Produto" value="{{preco_produto|default_if_none:''}}" name="preco_produto" required>
+            <div class="button-container">
+                <input class="botoes-editar" type="submit" value="Cadastrar">
+                <a class="botoes-editar" href="{% url 'mostra_produtos' %}">Voltar</a>
+            </div>
+        </form>
+
+        {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        <script>
+            const successMessage = document.querySelector('.success');
+            const errorMessage = document.querySelector('.error');
+
+            if (successMessage) {
+                const duration = 3000;
+
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, duration);
+            }
+
+            if (errorMessage) {
+                const duration = 3000;
+
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, duration);
+            }
+        </script>
+
+        
+    </body>
+</html>
