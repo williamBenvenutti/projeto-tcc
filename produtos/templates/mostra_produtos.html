@@ -40,12 +40,18 @@
           <th style="min-width: 180px;">Nome</th>
           <th>Código de Barras</th>
           <th>Preço</th>
+          <th style="text-align: center;">Situação</th>
           <th style="text-align: center;">Editar</th>
           {% for produto in produtos %}
           <tr>
             <td>{{produto.nome}}</td>
             <td>{{produto.codigo_de_barras}}</td>
             <td>{{produto.preco}}</td>
+            {% if produto.situacao %}
+                <td style="color: green; text-align: center;">Ativo</td>
+            {% else %}
+                <td style="color: red; text-align: center;">Inativo</td>
+            {% endif %}
             <td style="text-align: center;">
               <a href="{% url 'editar_produto' produto.id%}"><img width="28px" src="https://i.imgur.com/NjqLJ32.png"></a>
             </td>

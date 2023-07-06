@@ -19,8 +19,7 @@ def MostraColabs(request):
 def CadastraColabs(request):
     if request.method == 'POST':
         new_nome = request.POST.get('nome')
-        new_cpf = request.POST.get('cpf')
-        new_cpf = new_cpf.replace('.', '').replace('-', '')
+        new_cpf = request.POST.get('cpf').replace('.', '').replace('-', '')
         new_email = request.POST.get('email')
         new_login = request.POST.get('login')
         new_senha = request.POST.get('senha')
@@ -34,6 +33,7 @@ def CadastraColabs(request):
                 'situacao': new_situacao,
                 'email' : new_email
             }
+            
             messages.error(request, 'CPF Inválido!')
             return render(request, 'cadastro_colabs.html', context)
 

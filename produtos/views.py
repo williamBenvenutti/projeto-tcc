@@ -24,12 +24,14 @@ def CadastraProduto(request):
         new_nome_produto = request.POST.get('nome_produto')
         new_codigo_de_barras = request.POST.get('codigo_de_barras')
         new_preco_produto = request.POST.get('preco_produto')
+        new_situacao = True if request.POST.get('situacao') else False
 
         try:
             Produto.objects.create(
                 nome = new_nome_produto,
                 codigo_de_barras = new_codigo_de_barras,
                 preco = new_preco_produto,
+                situacao = new_situacao
             )
             return redirect('mostra_produtos')
         
@@ -38,7 +40,8 @@ def CadastraProduto(request):
                 context = {
                     'nome_produto' : new_nome_produto,
                     'codigo_de_barras' : new_codigo_de_barras,
-                    'preco_produto' : new_preco_produto
+                    'preco_produto' : new_preco_produto,
+                    'situacao' : new_situacao
                 }
                 messages.error(request, 'Código de barras já existe!')
                 return render(request, 'cadastro_produtos.html', context)
@@ -54,12 +57,14 @@ def EditarProduto(request, produto_id):
         new_nome_produto = request.POST.get('nome_produto')
         new_codigo_de_barras = request.POST.get('codigo_de_barras')
         new_preco_produto = request.POST.get('preco_produto')
+        new_situacao = True if request.POST.get('situacao') else False
 
         try:
             Produto.objects.filter(id=produto_id).update(
-                nome=new_nome_produto,
-                codigo_de_barras=new_codigo_de_barras,
-                preco=new_preco_produto
+                nome = new_nome_produto,
+                codigo_de_barras = new_codigo_de_barras,
+                preco = new_preco_produto,
+                situacao = new_situacao
             )
             return redirect('mostra_produtos')
         

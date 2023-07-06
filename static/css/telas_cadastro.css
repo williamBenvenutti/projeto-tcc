@@ -91,7 +91,8 @@ th {
 .container-form input[type="text"],
 input[type="number"],
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+select{
     margin-bottom: 10px;
     padding: 12px;
     width: 300px;

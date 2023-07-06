@@ -31,7 +31,11 @@
             {% csrf_token %}
             <input type="text" placeholder="Nome do Produto" name="nome_produto" value="{{produtos.nome}}" required>
             <input type="text" placeholder="Código de Barras" name="codigo_de_barras" maxlength="15" value="{{produtos.codigo_de_barras}}" required>
-            <input type="text" placeholder="Preço Produto" name="preco_produto" value="{{produtos.preco}}" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) || event.charCode === 46" required>
+            <input type="number" step="0.01" placeholder="Preço Produto" name="preco_produto" value="{{ produtos.preco }}"required>
+            <div class="situacao-funcionario">
+                <label>Produto Ativo?</label>
+                <input type="checkbox" name="situacao" value='true' {% if produto.situacao %} checked {% endif %}>
+            </div>
             <div class="button-container">
                 <input class="botoes-editar" type="submit" name="salvar" value="Salvar">
                 <a class="botoes-editar" href="{% url 'mostra_produtos' %}">Voltar</a>
