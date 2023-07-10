@@ -10,19 +10,20 @@
 </head>
 <body>
     <header>
-        <nav>
-            <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
-            <ul class="nav-list">
-                <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
-                <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
-                {% if user.is_superuser %}
-                    <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
-                {% endif %}
-                <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
-                <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
-            </ul>
+        <nav style="margin-bottom: 30px;">
+          <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+          <ul class="nav-list">
+          <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+          <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+          {% if user.is_superuser %}
+          <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+          {% endif %}
+          <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+          <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
+          <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
         </nav>
-    </header>
+      </header>
     <div class="container">
         <h1>Relatório de Colaboradores</h1>
         <form action="{% url 'relatorio_colab' %}" class="formulario-relatorio" method="post">

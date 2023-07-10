@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .modal-quantidade{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .editar-quantidade {
+            border-top: 20px solid #1f468e;
+            color: #1f468e;
+            background-color: #dbe7fd;
+            width: 400px;
+            height: 210px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+        }
+        .input-quantidade{
+            padding: 10px;
+            margin: 0 auto;
+            display: flex;
+            width: 180px;
+            height: 18px;
+            color: #1f468e;
+            font-size: 15px;
+            outline-color: #1f468e;
+        }
+        .botao-modal-adiciona{
+            margin-top: 20px;
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            background-color: #1f468e;
+            outline: none;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-quantidade">
+        <div class="editar-quantidade">
+            <h1>Adicionar Estoque</h1>
+            <form method="POST">
+                <input class="input-quantidade" type="number" placeholder="Quantidade">
+                <input class="botao-modal-adiciona"type="submit" value="Adicionar">
+            </form>
+        </div>
+    </div>
+</body>
+</html>

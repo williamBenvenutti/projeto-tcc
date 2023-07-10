@@ -12,25 +12,32 @@
 </head>
     <body> 
         <header>
-            <nav>
-                <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
-                <ul class="nav-list">
-                    <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
-                    <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
-                    {% if user.is_superuser %}
-                        <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
-                    {% endif %}
-                    <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
-                    <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
-                </ul>
+            <nav style="margin-bottom: 30px;">
+              <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+              <ul class="nav-list">
+              <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+              <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+              {% if user.is_superuser %}
+              <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+              {% endif %}
+              <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+              <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
+              <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
             </nav>
-        </header>
+          </header>
 
         <form method="post" class="container-form">
             {% csrf_token %}
             <input type="text" placeholder="Nome do Produto" name="nome_produto" value="{{ nome_produto|default_if_none:'' }}" required>
             <input type="text" placeholder="Código de Barras" name="codigo_de_barras" value="{{ codigo_de_barras|default_if_none:''}}" maxlength="15" required>
             <input type="number" step="0.01" placeholder="Preço Produto" value="{{preco_produto|default_if_none:''}}" name="preco_produto" required>
+            <select name="categoria" required>
+                <option value="" selected disabled>Selecione a categoria</option>
+                {% for choice in categorias %}
+                    <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endfor %}
+            </select>
             <div class="checbox">
                 <label>Produto Ativo?</label>
                 <input type="checkbox" name="situacao" value="true" {% if situacao %}checked{% endif %}>

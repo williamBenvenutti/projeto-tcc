@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from colaboradores.models import Colaborador
+from estoque.models import Estoque
 from produtos.models import Produto
 from .models import RegistroCompra, ItemCompra
 from django.http import HttpResponse
@@ -8,10 +9,12 @@ from django.db.models import Sum, F
 from django.contrib.auth.hashers import check_password
 from django.contrib import messages
 import locale
-from django.core.mail import send_mail
+from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+from django.conf import settings
+from weasyprint import HTML
 
 carrinho = list()
 
@@ -22,7 +25,7 @@ def TelaCompra(request):
         codigo_de_barras_digitado = request.POST.get('codigo_de_barras')
         produto = Produto.objects.filter(codigo_de_barras=codigo_de_barras_digitado).first()
 
-        if produto is None:
+        if produto is None or produto.situacao == False:
             messages.error(request, 'Produto não encontrado!')
             return redirect('realizar_compras')
         else:
@@ -83,6 +86,13 @@ def FinalizaCompra(request):
             for produto, quantidade in quantidade_produtos.items():
                 item = ItemCompra(compra=compra, produto=produto, quantidade=quantidade, preco_individual=produto.preco)
                 itens_compra.append(item)
+
+                estoque = Estoque.objects.get(nome_produto=produto)
+                estoque.quantidade -= quantidade
+                estoque.save()
+
+                if produto.categoria == 'cinema':
+                    EnviarEmailIngresso(colaborador, produto, quantidade)
 
             ItemCompra.objects.bulk_create(itens_compra)
 
@@ -180,6 +190,7 @@ def calculaTotalComprasReferenciaAnterior(colaborador):
         return 0.0
     
 def EnviarEmail(colab, carrinho, final_compra):
+    data_atual = datetime.now()
     subject = 'Compra realizada na Conveniência SCI'
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = [colab.email]
@@ -190,9 +201,37 @@ def EnviarEmail(colab, carrinho, final_compra):
         'final_compra':final_compra
     }
 
-    nome_template = 'padrao_email.html'
+    mensagem_html = render_to_string('padrao_email.html', context)
+
+    pdf_bytes = HTML(string=mensagem_html).write_pdf()
+
+    mensagem_email = EmailMultiAlternatives(
+        subject = subject,
+        from_email = from_email,
+        to = recipient_list
+    )
+
+    mensagem_email.attach_alternative(mensagem_html, 'text/html')
+
+    mensagem_email.attach(f'Comprovante de compra-{data_atual}', pdf_bytes,'application/pdf')
+
+    mensagem_email.send()
+
+
+def EnviarEmailIngresso(colab, produto, quantidade):
+    data_atual = datetime.now()
+    subject = 'Compra de ingresso realizada na Conveniência SCI'
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = ['benvenuttiwilliam@gmail.com']
+
+    context = {
+        'produto':produto,
+        'colaborador':colab,
+        'quantidade':quantidade
+    }
+
+    nome_template = 'email_ingresso.html'
     mensagem_html = render_to_string(nome_template, context)
     plain_message = strip_tags(mensagem_html)
 
     send_mail(subject, plain_message, from_email, recipient_list, html_message=mensagem_html)
-

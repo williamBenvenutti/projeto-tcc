@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Produto
+from estoque.models import Estoque
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 import locale
@@ -16,8 +17,6 @@ def MostraProdutos(request):
 
     return render(request, 'mostra_produtos.html', {'produtos': produtos, 'quantidade_produtos': quantidade_produtos})
 
-
-
 @login_required(login_url='logar')
 def CadastraProduto(request):
     if request.method == 'POST':
@@ -25,14 +24,20 @@ def CadastraProduto(request):
         new_codigo_de_barras = request.POST.get('codigo_de_barras')
         new_preco_produto = request.POST.get('preco_produto')
         new_situacao = True if request.POST.get('situacao') else False
+        new_categoria = request.POST.get('categoria')
 
         try:
-            Produto.objects.create(
+            novo_produto = Produto(
                 nome = new_nome_produto,
                 codigo_de_barras = new_codigo_de_barras,
                 preco = new_preco_produto,
-                situacao = new_situacao
+                situacao = new_situacao,
+                categoria = new_categoria
             )
+            novo_produto.save()
+
+            estoque_novo = Estoque(nome_produto = novo_produto)
+            estoque_novo.save()
             return redirect('mostra_produtos')
         
         except Exception as e:
@@ -41,7 +46,8 @@ def CadastraProduto(request):
                     'nome_produto' : new_nome_produto,
                     'codigo_de_barras' : new_codigo_de_barras,
                     'preco_produto' : new_preco_produto,
-                    'situacao' : new_situacao
+                    'situacao' : new_situacao,
+                    'categoria' : new_categoria
                 }
                 messages.error(request, 'Código de barras já existe!')
                 return render(request, 'cadastro_produtos.html', context)
@@ -49,7 +55,8 @@ def CadastraProduto(request):
                 messages.error(request, e)
                 return render(request, 'cadastro_produtos.html')
     else:
-        return render(request, 'cadastro_produtos.html')
+        categorias = Produto.CATEGORIA_CHOICES
+        return render(request, 'cadastro_produtos.html', {'categorias':categorias})
 
 @login_required(login_url='logar')
 def EditarProduto(request, produto_id):
@@ -76,4 +83,7 @@ def EditarProduto(request, produto_id):
                 return HttpResponse(e)
     else:
         produtos = Produto.objects.get(id=produto_id)
+        produtos.preco = float(produtos.preco)
+        print(produtos.situacao)
+        produtos.save()
         return render(request, 'editar_produto.html', {'produtos': produtos})
