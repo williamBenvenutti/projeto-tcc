@@ -9,6 +9,7 @@
     <style>
         .modal-quantidade{
             display: none;
+            flex-direction: column;
             position: fixed;
             z-index: 1;
             left: 0;
@@ -33,6 +34,7 @@
             height: 210px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+            padding: 0;
         }
         .input-quantidade{
             padding: 10px;
@@ -65,12 +67,17 @@
         .verde{
             border-left: 5px solid green;
         }
+        .botao-adiciona-qtd{
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
     </style>
 </head>
     <body>
         <header>
           <nav style="margin-bottom: 30px;">
-            <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+            <a class="logo" href="{% url 'dashboard' %}"><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
             <ul class="nav-list">
             <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
             <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
@@ -89,6 +96,7 @@
             <input type="text" name="search" placeholder="Buscar Produto">
           </div>
         </div> 
+
         <div class="tabela">
             <table>
                 <tr>
@@ -101,7 +109,7 @@
                     <td>{{produto.nome_produto}}</td>
                     <td style="text-align: center;">{{produto.quantidade}}</td>
                     <td style="text-align: center;">
-                        <button type="button" onclick="abrirEdicao('{{ produto.id }}')"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></button>
+                        <button class="botao-adiciona-qtd" type="button" onclick="abrirEdicao('{{ produto.id }}')"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></button>
                     </td>
                 </tr>
                 {% endfor %}

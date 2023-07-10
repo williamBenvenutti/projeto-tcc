@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import TelaCompra, FinalizaCompra, RemoverProduto, LimpaCarrinho, MostraTotalGasto, EnviarEmail
+from .views import TelaCompra, FinalizaCompra, RemoverProduto, LimpaCarrinho, MostraTotalGasto
 
 urlpatterns = [
     path('realizar_compras/', TelaCompra, name='realizar_compras'),

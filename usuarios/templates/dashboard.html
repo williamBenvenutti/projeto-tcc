@@ -78,12 +78,50 @@
             background: #2c5cb4;
             text-decoration: none;
         }
+        .card{
+            border: 2px solid #1f468e;
+            display: flex;
+            flex-direction: column;
+            border-radius: 10px;
+            width: 350px;
+        }
+        .escrita{
+            display: flex;
+            padding: 5px;
+            background-color: #1f468e;
+            height: 40px;
+            text-align: center;
+            color: white;
+            justify-content: center;
+            align-items: center;
+        }
+        .grid {
+            display: grid;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+        }
+        a{
+            text-decoration: none;
+            color: #1f468e;
+        }
+        .top{
+            font-size: 20px;
+            font-weight: 500;
+            text-align: left;
+        }
+        .mid{
+            margin-top: 10px;
+            font-size: 20px;
+            font-weight: 500;
+            text-align: left;
+        }
   </style>
 </head>
     <body>
         <header>
             <nav style="margin-bottom: 30px;">
-              <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+              <a class="logo" href="{% url 'dashboard' %}"><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
               <ul class="nav-list">
               <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
               <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
@@ -96,5 +134,22 @@
               </ul>
             </nav>
           </header>
+        <a href="#">
+            <div class="grid">
+                <div class="card">
+                    <div class="escrita">
+                        <h2>Estoque</h2>
+                    </div>
+                    <table style="margin:20px;">
+                        {% for produto in estoque %}
+                        <tr class="mid">
+                            <td>{{produto.nome_produto}}</td>
+                            <td style="text-align: center;">{{produto.quantidade}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </a>
     </body>
 </html>

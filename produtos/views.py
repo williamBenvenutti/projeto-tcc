@@ -64,6 +64,8 @@ def EditarProduto(request, produto_id):
         new_nome_produto = request.POST.get('nome_produto')
         new_codigo_de_barras = request.POST.get('codigo_de_barras')
         new_preco_produto = request.POST.get('preco_produto')
+        new_preco_produto = new_preco_produto.replace(',','.')
+        new_preco_produto = float(new_preco_produto)
         new_situacao = True if request.POST.get('situacao') else False
 
         try:
@@ -83,7 +85,5 @@ def EditarProduto(request, produto_id):
                 return HttpResponse(e)
     else:
         produtos = Produto.objects.get(id=produto_id)
-        produtos.preco = float(produtos.preco)
-        print(produtos.situacao)
-        produtos.save()
         return render(request, 'editar_produto.html', {'produtos': produtos})
+    

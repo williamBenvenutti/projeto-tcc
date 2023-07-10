@@ -3,11 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
-from django.db import IntegrityError
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.contrib.auth.hashers import check_password
-from django.shortcuts import get_object_or_404
+from django.db.models import Q
+from estoque.models import Estoque
 
 def Login(request):
     if request.method == 'POST':
@@ -27,7 +26,12 @@ def Login(request):
 
 @login_required(login_url='logar')
 def Dashboard(request):
-    return render(request, 'dashboard.html')
+    estoque = Estoque.objects.filter(Q(quantidade__lte = 3)).filter(nome_produto__situacao=True).filter(nome_produto__categoria='Alimento')
+
+    context = {
+        'estoque' : estoque
+    }
+    return render(request, 'dashboard.html', context)
 
 @login_required(login_url='logar')
 def CadastroUsuario(request):
@@ -157,3 +161,5 @@ def ExcluiUsuario(request, user_id):
 def Logout(request):
     logout(request)
     return redirect('logar')
+
+

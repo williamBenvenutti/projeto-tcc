@@ -14,7 +14,7 @@
     <body>
         <header>
             <nav style="margin-bottom: 30px;">
-              <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+              <a class="logo" href="{% url 'dashboard' %}"><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
               <ul class="nav-list">
               <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
               <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
@@ -32,10 +32,10 @@
             {% csrf_token %}
             <input type="text" placeholder="Nome do Produto" name="nome_produto" value="{{produtos.nome}}" required>
             <input type="text" placeholder="Código de Barras" name="codigo_de_barras" maxlength="15" value="{{produtos.codigo_de_barras}}" required>
-            <input type="number" placeholder="Preço Produto" name="preco_produto" value="{{ produtos.preco }}"required>
+            <input type="text" placeholder="Preço Produto" name="preco_produto" value="{{ produtos.preco }}"required>
             <div class="situacao-funcionario">
                 <label>Produto Ativo?</label>
-                <input type="checkbox" name="situacao" value="true" {% if produto.situacao %} checked {% endif %}>
+                <input type="checkbox" name="situacao" value="true" {% if produtos.situacao%} checked {% endif %}>
             </div>
             <div class="button-container">
                 <input class="botoes-editar" type="submit" name="salvar" value="Salvar">

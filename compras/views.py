@@ -86,13 +86,15 @@ def FinalizaCompra(request):
             for produto, quantidade in quantidade_produtos.items():
                 item = ItemCompra(compra=compra, produto=produto, quantidade=quantidade, preco_individual=produto.preco)
                 itens_compra.append(item)
-
-                estoque = Estoque.objects.get(nome_produto=produto)
-                estoque.quantidade -= quantidade
-                estoque.save()
+                if produto.categoria != 'cinema' and produto.categoria != 'vestuario':
+                    estoque = Estoque.objects.get(nome_produto=produto)
+                    estoque.quantidade -= quantidade
+                    estoque.save()
 
                 if produto.categoria == 'cinema':
                     EnviarEmailIngresso(colaborador, produto, quantidade)
+                elif produto.categoria == 'vestuario':
+                    EnviarEmailCamisa(colaborador, produto, quantidade)
 
             ItemCompra.objects.bulk_create(itens_compra)
 
@@ -219,7 +221,6 @@ def EnviarEmail(colab, carrinho, final_compra):
 
 
 def EnviarEmailIngresso(colab, produto, quantidade):
-    data_atual = datetime.now()
     subject = 'Compra de ingresso realizada na Conveniência SCI'
     from_email = settings.DEFAULT_FROM_EMAIL
     recipient_list = ['benvenuttiwilliam@gmail.com']
@@ -231,6 +232,23 @@ def EnviarEmailIngresso(colab, produto, quantidade):
     }
 
     nome_template = 'email_ingresso.html'
+    mensagem_html = render_to_string(nome_template, context)
+    plain_message = strip_tags(mensagem_html)
+
+    send_mail(subject, plain_message, from_email, recipient_list, html_message=mensagem_html)
+
+def EnviarEmailCamisa(colab, produto, quantidade):
+    subject = 'Compra de camisa realizada na Conveniência SCI'
+    from_email = settings.DEFAULT_FROM_EMAIL
+    recipient_list = ['benvenuttiwilliam@gmail.com']
+
+    context = {
+        'produto':produto,
+        'colaborador':colab,
+        'quantidade':quantidade
+    }
+
+    nome_template = 'email_camisa.html'
     mensagem_html = render_to_string(nome_template, context)
     plain_message = strip_tags(mensagem_html)
 
