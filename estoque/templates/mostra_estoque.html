@@ -26,6 +26,7 @@
 
         .editar-quantidade {
             display: flex;
+            flex-direction: column; /* Adicionado */
             position: fixed;
             border-top: 20px solid #1f468e;
             color: #1f468e;
@@ -37,6 +38,7 @@
             padding: 0;
         }
         .input-quantidade{
+            margin-top: 20px;
             padding: 10px;
             margin: 0 auto;
             display: flex;
@@ -46,8 +48,8 @@
             font-size: 15px;
             outline-color: #1f468e;
         }
-        .botao-modal-adiciona{
-            margin-top: 20px;
+        .botao-modal-adiciona {
+            margin-top: 10px; /* Ajustado */
             width: 100px;
             height: 40px;
             font-size: 16px;
@@ -118,11 +120,11 @@
 
         <div id="qtdModal" class="modal-quantidade">
             <div class="editar-quantidade">
-                <h1>Adicionar Estoque</h1>
+                <h1 style="margin-bottom: 20px; margin-top: 20px;">Adicionar Estoque</h1>
                 <form id="qtdForm" method="POST">
                     {% csrf_token%}
                     <input class="input-quantidade" type="number" name="quantidade" placeholder="Quantidade">
-                    <button class="botao-modal-adiciona" type="button">Adicionar</button>
+                    <button style="margin-bottom: 10px;"class="botao-modal-adiciona" type="button">Adicionar</button>
                 </form>
             </div>
         </div>
