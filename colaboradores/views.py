@@ -117,7 +117,7 @@ def EditarColab(request, colab_id):
                 messages.error(request,'Login ja em uso!')
                 return render(request, 'editar_colab.html', {'colab': colab})
             elif 'email' in str(e):
-                messages.error(request,'Email ja em uso!')
+                messages.error(request, 'Email ja em uso!')
                 return render(request, 'editar_colab.html', {'colab': colab})
             else:
                 return HttpResponse(e)

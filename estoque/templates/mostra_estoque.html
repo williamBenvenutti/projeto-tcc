@@ -59,6 +59,21 @@
             font-weight: 600;
             border: none;
             border-radius: 5px;
+            margin-left: 2px;
+            cursor: pointer;
+        }
+
+        .botao-modal-fecha {
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            background-color: white;
+            border: 1px solid #1f468e;
+            color: #1f468e;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 2px;
         }
         .vermelho{
             border-left: 5px solid red;
@@ -111,7 +126,8 @@
                     <td>{{produto.nome_produto}}</td>
                     <td style="text-align: center;">{{produto.quantidade}}</td>
                     <td style="text-align: center;">
-                        <button class="botao-adiciona-qtd" type="button" onclick="abrirEdicao('{{ produto.id }}')"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></button>
+                        <button class="botao-adiciona-qtd" id="realiza-acao" type="button" onclick="abrirEdicao('{{ produto.id }}','remover')"><img width="30px" src="{% static 'img/remov-item.png'%}"></button>
+                        <button class="botao-adiciona-qtd" id="realiza-acao" type="button" onclick="abrirEdicao('{{ produto.id }}','adicionar')"><img width="30px" src="{% static 'img/add-item.png'%}"></button>
                     </td>
                 </tr>
                 {% endfor %}
@@ -120,11 +136,12 @@
 
         <div id="qtdModal" class="modal-quantidade">
             <div class="editar-quantidade">
-                <h1 style="margin-bottom: 20px; margin-top: 20px;">Adicionar Estoque</h1>
+                <h1 style="margin-bottom: 20px; margin-top: 20px;">Gerenciar Estoque</h1>
                 <form id="qtdForm" method="POST">
                     {% csrf_token%}
                     <input class="input-quantidade" type="number" name="quantidade" placeholder="Quantidade">
-                    <button style="margin-bottom: 10px;"class="botao-modal-adiciona" type="button">Adicionar</button>
+                    <input type="submit" style="margin-bottom: 10px;"class="botao-modal-adiciona" value="">
+                    <button type="button" onclick="fecharEdicao()" class="botao-modal-fecha">Cancelar</button>
                 </form>
             </div>
         </div>
@@ -143,13 +160,20 @@
         </div>
         {% endif %}
         <script>
-            function abrirEdicao(produtoId) {
+            function abrirEdicao(produtoId, action) {
                 var modal = document.getElementById("qtdModal");
                 var form = document.getElementById('qtdForm');
                 var produtoIdInput = form.querySelector('input[name="produto_id"]');
                 var adicionarButton = form.querySelector('.botao-modal-adiciona');
-
-                form.action = "adiciona_estoque/" + produtoId + "/";
+                if (action === 'adicionar'){
+                    form.action = "adiciona_estoque/" + produtoId + "/";
+                    adicionarButton.value = 'Adicionar';
+                }
+                else if (action === 'remover'){
+                    form.action = "remove_estoque/" + produtoId + "/";
+                    adicionarButton.value = 'Remover'
+                }
+                
                 
                 adicionarButton.addEventListener('click', function() {
                     form.submit();
@@ -157,6 +181,11 @@
                 
                 modal.style.display = "flex";
 
+            }
+            function fecharEdicao(){
+                var modal = document.getElementById('qtdModal')
+
+                modal.style.display = 'none'
             }
         </script>
         <script>
