@@ -15,7 +15,7 @@ a {
 }
 
 .botoes-nav {
-    color: #1f468e;
+    color: white;
     text-decoration: none;
     transition: 0.3s;
     font-weight: 600;
@@ -24,14 +24,13 @@ a {
 
 .botoes-nav:hover {
     opacity: 0.7;
-    border-bottom: 2px solid #2c5cb4;
+    border-bottom: 2px solid white;
 }
 
 .logo {
     font-size: 24px;
     text-transform: uppercase;
     letter-spacing: 4px;
-    color: white;
 }
 
 nav {
@@ -39,7 +38,7 @@ nav {
     justify-content: space-around;
     align-items: center;
     font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
-    background: #dbe7fd;
+    background: #2d3560;
     height: 8vh;
 }
 

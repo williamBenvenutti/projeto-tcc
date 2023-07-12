@@ -7,16 +7,17 @@
   }
 
   body {
-    background-color: #ffffff;
+    background-color: #eaeaea;
   }
 
   .btn {
-    background: #1f468e;
+    background: white;
     -webkit-border-radius: 5;
     -moz-border-radius: 5;
     border-radius: 5px;
     outline: none;
-    color: #ffffff;
+    color: #2d3560;
+    font-weight: 500;
     padding: 10px 20px 10px 20px;
     text-decoration: none;
     width: 50px;
@@ -24,7 +25,7 @@
   }
 
   .btn:hover {
-    background: #1f468e;
+    background: white;
     text-decoration: none;
   }
 
@@ -32,18 +33,26 @@
     margin-top: 15px;
     border-collapse: collapse;
     width: 50%;
+    border: 1px solid #2d3560;
   }
 
-  th,
-  td {
+  th{
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size: 20px;
+    color: white;
+  }
+  td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2d3560;
+    font-size: 20px;
+    color: black;
   }
 
   th {
-    background-color: #dbe7fd;
+    background-color: #2d3560;
   }
 
   .tabela {
@@ -51,6 +60,7 @@
     margin: 0 auto;
     justify-content: center;
     position: relative;
+
   }
 
   .btn-adicionar {
@@ -60,7 +70,7 @@
     position: absolute;
     bottom: -50px;
     left: 25%;
-    background: #1f468e;
+    background: #2d3560;
     border-radius: 5px;
     color: #ffffff;
     padding: 5px 20px 5px 20px;
@@ -70,7 +80,7 @@
   
   .btn-barra-pesquisa{
     text-align: center;
-    background: #1f468e;
+    background: #2d3560;
     border-radius: 5px;
     color: #ffffff;
     padding: 5px 20px 5px 20px;
@@ -91,17 +101,19 @@
   .quantidade {
     order: 2;
     margin-top: 5px;
+
   }
   
   .busca-produto {
     order: 1; 
+
   }
   
   .busca-produto input[type='text'] {
     padding: 5px;
     width: 200px;
     height: 20px;
-    border: 1px solid #1f468e;
+    border: 1px solid #2d3560;
     border-radius: 5px;
     outline: none;
     transition: 0.2s;
@@ -129,7 +141,7 @@
   width: 270px;
 }
 .popup .error{
-  background-color: #1f468e;
+  background-color: #2d3560;
   color: white;
   padding: 10px;
   width: 270px;

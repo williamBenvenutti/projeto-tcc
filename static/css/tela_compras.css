@@ -26,7 +26,7 @@ body {
 .realiza-compra input[type='text'] {
     padding: 12px;
     width: 300px;
-    border: 1px solid #1f468e;
+    border: 1px solid #2d3560;
     border-radius: 5px;
     outline: none;
     transition: 0.2s;
@@ -37,7 +37,7 @@ body {
     width: 45px;
     height: 45px;
     color: white;
-    background-color: #1f468e;
+    background-color: #2d3560;
     border-radius: 5px;
     transition: 0.2s;
     margin-left: 5px;
@@ -51,16 +51,33 @@ table {
     max-height: 1000px;
 }
 
-th,
-td {
+th{
     padding: 8px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     font-size: 20px;
+    color: white;
+}
+
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2d3560;
+    font-size: 20px;
+    color: #2d3560;
+}
+
+.td-final{
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2d3560;
+    font-size: 20px;
+    background-color: #e7e7e7;
+    color: white;
 }
 
 th {
-    background-color: #dbe7fd;
+    background-color: #2d3560;
 }
 
 .tabela {
@@ -126,7 +143,7 @@ th {
 input[type='password'] {
     padding: 12px;
     width: 300px;
-    border: 1px solid #1f468e;
+    border: 1px solid #2d3560;
     border-radius: 5px;
     outline: none;
     transition: 0.2s;
@@ -146,7 +163,7 @@ input[type='password'] {
     height: auto;
     padding: 8px 16px;
     border-radius: 7px;
-    background-color: #1f468e;
+    background-color: #2d3560;
     color: white;
     border: none;
     cursor: pointer;
@@ -155,7 +172,7 @@ input[type='password'] {
 
 .botoes-modal button:hover,
 .botoes-modal input[type="submit"]:hover {
-    background-color: #16528f;
+    background-color: #2d3560;
 }
 .finaliza-compra{
     display: flex;
@@ -165,7 +182,7 @@ input[type='password'] {
 .botao-finaliza-compra{
     margin-top: 20px;
     text-align: center;
-    background: #1f468e;
+    background: #2d3560;
     border-radius: 5px;
     color: #ffffff;
     padding: 10px;
@@ -181,9 +198,8 @@ input[type='password'] {
 
 input[type="submit"] {
     border: none;
-    background-color: #1f468e; /* Cor de fundo do botão */
-    color: white; /* Cor do texto do botão */
-    /* Adicione outros estilos personalizados conforme necessário */
+    background-color: #2d3560;
+    color: white; 
   }
 
   .popup {
@@ -207,7 +223,7 @@ input[type="submit"] {
   width: 270px;
 }
 .popup .error{
-  background-color: #1f468e;
+  background-color: #2d3560;
   color: white;
   padding: 10px;
   width: 270px;
@@ -221,4 +237,33 @@ input[type="submit"] {
     position: sticky;
     top: 0;
     background-color: white;
+}
+
+
+.botao-compra {
+    margin-top: 10px; /* Ajustado */
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    background-color: #2d3560;
+    outline: none;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    margin-left: 2px;
+    cursor: pointer;
+}
+
+.botao-gasto {
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    background-color: white;
+    border: 1px solid #2d3560;
+    color: #2d3560;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 2px;
 }

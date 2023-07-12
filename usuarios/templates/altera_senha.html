@@ -12,21 +12,21 @@
         <title>Alterar Senha</title>
     </head>
     <body>
-        <header>
-            <nav style="margin-bottom: 30px;">
-              <a class="logo" href=""><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
-              <ul class="nav-list">
-              <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
-              <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
-              {% if user.is_superuser %}
-              <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
-              {% endif %}
-              <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
-              <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
-              <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
-              </ul>
-            </nav>
-          </header>
+      <header>
+        <nav style="margin-bottom: 30px;">
+          <a class="logo" href="{% url 'dashboard' %}"><img width="180px" src="{% static 'img/logo-sci.png'%}"></a>
+          <ul class="nav-list">
+          <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+          <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+          {% if user.is_superuser %}
+          <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+          {% endif %}
+          <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+          <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
+          <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+          </ul>
+        </nav>
+      </header>
             <form action="{% url 'altera_senha' users.id %}" method="POST" class="container-form">
               {% csrf_token %}
               <input type="password" name="senha" placeholder="Nova Senha">

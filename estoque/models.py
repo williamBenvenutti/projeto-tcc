@@ -10,12 +10,12 @@ class Estoque(models.Model):
         return self.nome_produto.nome
 
 class MovimentacoesEstoque(models.Model):
-
+    
     TIPOS_CHOICES = (
         ('entrada', 'Entrada'),
         ('saida', 'Saida'),
     )
-    
+
     usuario = models.CharField(max_length=100)
     tipo = models.CharField(max_length=20, choices=TIPOS_CHOICES)
     data_hora = models.DateField(default=timezone.now)

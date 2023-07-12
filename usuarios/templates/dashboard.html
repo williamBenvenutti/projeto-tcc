@@ -6,80 +6,31 @@
     <meta charset="UTF-8">
     <title>Página Principal</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:400,500,700&display=swap">
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+
     <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-        body{
-            background-color: white;
-        }
-        a {
-            text-decoration: none;
-        }
-
-        .botoes-nav {
-            color: #1f468e;
-            text-decoration: none;
-            transition: 0.3s;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .botoes-nav:hover {
-            opacity: 0.7;
-            border-bottom: 2px solid #2c5cb4;
-        }
-
-        .logo {
-            font-size: 24px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: white;
-        }
-
-        nav {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
-            background: #dbe7fd;
-            height: 8vh;
-        }
-
-        main {
-            background: url("bg.jpg") no-repeat center center;
-            background-size: cover;
-            height: 92vh;
-        }
-
-        .nav-list {
-            list-style: none;
-            display: flex;
-        }
-
-        .nav-list li {
-            letter-spacing: 3px;
-            margin-left: 32px;
-        }
         .btn {
-            background: #1f468e;
+            background: white;
             -webkit-border-radius: 5;
             -moz-border-radius: 5;
             border-radius: 5px;
-            color: #ffffff;
+            outline: none;
+            color: #2d3560;
+            font-weight: 500;
             padding: 10px 20px 10px 20px;
             text-decoration: none;
+            width: 50px;
+            height: 20px;
         }
 
         .btn:hover {
-            background: #2c5cb4;
+            background: white;
             text-decoration: none;
         }
         .card{
-            border: 2px solid #1f468e;
+            border: 2px solid #2d3560;
+            background-color: rgb(236, 236, 236);
             display: flex;
             flex-direction: column;
             border-radius: 10px;
@@ -88,7 +39,7 @@
         .escrita{
             display: flex;
             padding: 5px;
-            background-color: #1f468e;
+            background-color: #2d3560;
             height: 40px;
             text-align: center;
             color: white;
@@ -103,7 +54,7 @@
         }
         a{
             text-decoration: none;
-            color: #1f468e;
+            color: #2d3560;
         }
         .top{
             font-size: 20px;
@@ -121,7 +72,7 @@
     <body>
         <header>
             <nav style="margin-bottom: 30px;">
-              <a class="logo" href="{% url 'dashboard' %}"><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
+              <a class="logo" href="{% url 'dashboard' %}"><img width="180px" src="{% static 'img/logo-sci.png'%}"></a>
               <ul class="nav-list">
               <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
               <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>

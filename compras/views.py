@@ -86,6 +86,7 @@ def FinalizaCompra(request):
             for produto, quantidade in quantidade_produtos.items():
                 item = ItemCompra(compra=compra, produto=produto, quantidade=quantidade, preco_individual=produto.preco)
                 itens_compra.append(item)
+                
                 if produto.categoria != 'cinema' and produto.categoria != 'vestuario':
                     estoque = Estoque.objects.get(nome_produto=produto)
                     estoque.quantidade -= quantidade

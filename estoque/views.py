@@ -4,6 +4,7 @@ from produtos.models import Produto
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 @login_required(login_url='logar')
@@ -41,6 +42,7 @@ def AdicionaEstoque(request, produto_id):
             MovimentacoesEstoque.objects.create(
                 usuario = request.user,
                 nome_produto = Produto.objects.get(id=produto_id),
+                data_hora = datetime.now(),
                 quantidade = quantidade,
                 tipo = 'entrada'
             )
@@ -70,6 +72,7 @@ def RemoverEstoque(request, produto_id):
             MovimentacoesEstoque.objects.create(
                 usuario = request.user,
                 nome_produto = Produto.objects.get(id=produto_id),
+                data_hora = datetime.now(),
                 quantidade = quantidade,
                 tipo = 'saida'
             )

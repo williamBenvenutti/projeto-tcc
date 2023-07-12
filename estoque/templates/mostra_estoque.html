@@ -28,9 +28,9 @@
             display: flex;
             flex-direction: column; /* Adicionado */
             position: fixed;
-            border-top: 20px solid #1f468e;
-            color: #1f468e;
-            background-color: #dbe7fd;
+            border-top: 20px solid hsl(231, 36%, 28%);
+            color: #2d3560;
+            background-color: #d7d7d7;
             width: 400px;
             height: 210px;
             text-align: center;
@@ -44,16 +44,16 @@
             display: flex;
             width: 180px;
             height: 18px;
-            color: #1f468e;
+            color: #2d3560;
             font-size: 15px;
-            outline-color: #1f468e;
+            outline-color: #2d3560;
         }
         .botao-modal-adiciona {
             margin-top: 10px; /* Ajustado */
             width: 100px;
             height: 40px;
             font-size: 16px;
-            background-color: #1f468e;
+            background-color: #2d3560;
             outline: none;
             color: white;
             font-weight: 600;
@@ -68,8 +68,8 @@
             height: 40px;
             font-size: 16px;
             background-color: white;
-            border: 1px solid #1f468e;
-            color: #1f468e;
+            border: 1px solid #2d3560;
+            color: #2d3560;
             font-weight: 600;
             border-radius: 5px;
             cursor: pointer;
@@ -93,24 +93,27 @@
 </head>
     <body>
         <header>
-          <nav style="margin-bottom: 30px;">
-            <a class="logo" href="{% url 'dashboard' %}"><img width="200px" src="{% static 'img/logo-sci.png'%}"></a>
-            <ul class="nav-list">
-            <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
-            <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
-            {% if user.is_superuser %}
-            <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
-            {% endif %}
-            <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
-            <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
-            <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
-            </ul>
-          </nav>
-        </header>
+            <nav style="margin-bottom: 30px;">
+              <a class="logo" href="{% url 'dashboard' %}"><img width="180px" src="{% static 'img/logo-sci.png'%}"></a>
+              <ul class="nav-list">
+              <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+              <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+              {% if user.is_superuser %}
+              <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+              {% endif %}
+              <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+              <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
+              <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+            </nav>
+          </header>
 
         <div class="header">
           <div class="busca-produto">
             <input type="text" name="search" placeholder="Buscar Produto">
+          </div>
+          <div class="quantidade">
+            <a class="btn-barra-pesquisa" href="{% url 'cadastro_produtos' %}">HIstórico</a>
           </div>
         </div> 
 
