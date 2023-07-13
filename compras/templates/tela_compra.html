@@ -13,9 +13,11 @@
 </head>
 
     <body>
-        <a class="logo" href="">
-            <img width="400px" src="{% static 'img/logo-sci-azul.png'%}">
-        </a>
+        <header>
+            <nav style="margin-bottom: 30px;">
+                <img width="200px" src="{% static 'img/logo-sci.png'%}">
+            </nav>
+          </header>
         <form class="realiza-compra" method="post">
             {% csrf_token %}
             <input type="text" placeholder="Codigo de Barras" name="codigo_de_barras">
@@ -37,35 +39,50 @@
                     </td>
                 </tr>
                 {% endfor %}
-                <tr class="td-final">
-                    <td style="font-weight: 700;">Preço Final</td>
-                    <td style="font-weight: 700;">{{soma_precos}}</td>
-                    <td style="text-align: center;">
-                        <a href="{% url 'limpar_carrinho' %}"><img width="35px" src="https://i.imgur.com/4YkmoMj.png"></a>
-                    </td>
-                </tr>
+                {% if soma_precos != 0 %}
+                    <tr class="td-final">
+                        <td style="font-weight: 700;">Preço Final</td>
+                        <td style="font-weight: 700;">{{ soma_precos }}</td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'limpar_carrinho' %}">
+                                <img width="35px" src="https://i.imgur.com/4YkmoMj.png">
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+
             </table>
         </div>
 
-        <div class="container-finalizar-compra">
-            <button type="button" class="botao-compra" title="Finalizar a compra!" onclick="openLoginModal('finalizar')">Finalizar</button>
+        <div class="container-finalizar-compra" style="margin-top: 20px;">
+            {% if soma_precos != 0 %}
+                <button type="button" class="botao-compra" title="Finalizar a compra!" onclick="openLoginModal('finalizar')">Finalizar</button>
+            {% endif%}
             <button type="button" class="botao-gasto" title="Mostra quanto foi gasto no período!" onclick="openLoginModal('gastos')">Gastos</button>
         </div>
-        
-        <div id="loginModal" class="modal">
-            <div class="modal-content">
-                <h2>Realizar Login</h2>
-                <form id="loginForm" method="post">
-                    {% csrf_token %}
-                    <input type="text" name="login" placeholder="Login">
-                    <input type="password" name="senha" placeholder="Senha">
-                    <div class="botoes-modal">
-                        <input type="submit" id="modalSubmitButton" value="Comprar">
+
+        <div id="loginModal" class="modal-quantidade">
+            <div class="editar-quantidade">
+                <h1 style="margin-bottom: 20px; margin-top: 20px;">Realizar Compra</h1>
+                <form id="loginForm" method="POST">
+                    {% csrf_token%}
+                    <input class="input-quantidade" type="text" name="login" placeholder="Login">
+                    <input class="input-quantidade" type="password" name="senha" placeholder="Senha">
+                    <div class="botoes-modal-qtd">
+                        <input id="modalSubmitButton" type="submit" style="margin-bottom: 10px;"class="botao-modal-adiciona" value="">
+                        <button type="button" onclick="closeLoginModal()" class="botao-modal-fecha">Cancelar</button>
                     </div>
                 </form>
-                <button type="button" onclick="closeLoginModal()">Cancelar</button>
             </div>
         </div>
+
+        <footer>
+            <div class="direitos">
+              <img style="margin-right: 20px;" src="{% static 'img/logo-sci.png'%}" width="80px">
+              <p>SCI Sistemas Contábeis - Todos os Direitos Reservados</p>
+              <img style="margin-left: 20px;" src="{% static 'img/robo-sci-fundo.png'%}" width="25px">
+            </div>
+        </footer>
 
         {% if total is not None %}
             <div id="modalCompra" class="modal-compra-finalizada">
@@ -101,7 +118,7 @@
                     submitButton.value = 'Comprar';
                 } else if (action === 'gastos') {
                     form.action = "{% url 'mostra_gasto' %}";
-                    submitButton.value = 'Mostrar Gastos';
+                    submitButton.value = 'Visualizar';
                 }
 
                 modal.style.display = "flex";

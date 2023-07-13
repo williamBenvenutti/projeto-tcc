@@ -26,8 +26,7 @@ def Login(request):
 
 @login_required(login_url='logar')
 def Dashboard(request):
-    estoque = Estoque.objects.filter(Q(quantidade__lte = 3)).filter(nome_produto__situacao=True).filter(nome_produto__categoria='Alimento')
-
+    estoque = Estoque.objects.filter(quantidade__lte = 6).filter(nome_produto__categoria = "alimento").filter(nome_produto__situacao = True)
     context = {
         'estoque' : estoque
     }

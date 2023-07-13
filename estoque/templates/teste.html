@@ -8,51 +8,125 @@
     <style>
         .modal-quantidade{
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            margin: 0 auto;
             align-items: center;
-            height: 100vh;
+            text-align: center;
+            justify-content: center;
             background-color: rgba(0, 0, 0, 0.4);
         }
+
         .editar-quantidade {
-            border-top: 20px solid #1f468e;
-            color: #1f468e;
-            background-color: #dbe7fd;
+            display: flex;
+            flex-direction: column; /* Adicionado */
+            position: fixed;
+            border-top: 20px solid hsl(231, 36%, 28%);
+            color: #2d3560;
+            background-color: #d7d7d7;
             width: 400px;
-            height: 210px;
+            height: 350px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+            padding: 5px;
         }
+
         .input-quantidade{
             padding: 10px;
             margin: 0 auto;
             display: flex;
             width: 180px;
             height: 18px;
-            color: #1f468e;
+            color: #2d3560;
             font-size: 15px;
-            outline-color: #1f468e;
+            outline-color: #2d3560;
         }
-        .botao-modal-adiciona{
-            margin-top: 20px;
+
+        .input-quantidade-select{
+            padding: 10px;
+            margin: 0 auto;
+            display: flex;
+            width: 204px;
+            height: 40px;
+            color: #2d3560;
+            font-size: 15px;
+            outline-color: #2d3560;
+        }
+
+            .botao-modal-adiciona {
+            margin-top: 10px;
             width: 100px;
             height: 40px;
             font-size: 16px;
-            background-color: #1f468e;
+            background-color: #2d3560;
             outline: none;
             color: white;
             font-weight: 600;
             border: none;
             border-radius: 5px;
+            margin-left: 2px;
+            cursor: pointer;
+        }
+
+            .botao-modal-fecha {
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            background-color: white;
+            border: 1px solid #2d3560;
+            color: #2d3560;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 2px;
+        }
+
+            .botao-adiciona-qtd{
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+
+            .botoes-modal-qtd{
+            margin-top: 10px;
+        }
+        .padding-botoes{
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 10px;
         }
     </style>
 </head>
     <body>
-        <div class="modal-quantidade">
+        <div id="qtdModal" class="modal-quantidade">
             <div class="editar-quantidade">
-                <h1>Adicionar Estoque</h1>
-                <form method="POST">
-                    <input class="input-quantidade" type="number" placeholder="Quantidade">
-                    <input class="botao-modal-adiciona"type="submit" value="Adicionar">
+                <h1 style="margin-bottom: 20px; margin-top: 20px;">Cadastrar Produto</h1>
+                <form id="qtdForm" method="POST">
+                    <div class="padding-botoes">
+                        <input class="input-quantidade" type="text" placeholder="Nome do Produto" name="nome_produto" required>
+                        <input class="input-quantidade" type="text" placeholder="Código de Barras" name="codigo_de_barras" maxlength="15" required>
+                        <input class="input-quantidade" type="number" step="0.01" placeholder="Preço Produto" name="preco_produto" required>
+                        <select class="input-quantidade-select" name="categoria" required>
+                            <option value="" selected disabled>Selecione a categoria</option>
+                            {% for choice in categorias %}
+                                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="checbox">
+                            <label>Produto Ativo?</label>
+                            <input type="checkbox" name="situacao" value="true" checked>
+                        </div>
+                    </div>
+                    <div class="botoes-modal-qtd">
+                        <input type="submit" style="margin-bottom: 10px;"class="botao-modal-adiciona" value="Cadastrar">
+                        <button type="button" onclick="fecharEdicao()" class="botao-modal-fecha">Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>

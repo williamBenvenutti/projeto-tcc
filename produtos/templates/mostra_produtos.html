@@ -44,22 +44,42 @@
           <th style="text-align: center;">Situação</th>
           <th style="text-align: center;">Editar</th>
           {% for produto in produtos %}
-          <tr>
-            <td>{{produto.nome}}</td>
-            <td>{{produto.codigo_de_barras}}</td>
-            <td>{{produto.preco}}</td>
             {% if produto.situacao %}
-                <td style="color: green; text-align: center;">Ativo</td>
-            {% else %}
-                <td style="color: red; text-align: center;">Inativo</td>
+              <tr>
+                <td>{{produto.nome}}</td>
+                <td>{{produto.codigo_de_barras}}</td>
+                <td>{{produto.preco}}</td>
+                    <td style="color: green; text-align: center;">Ativo</td>
+                <td style="text-align: center;">
+                  <a href="{% url 'editar_produto' produto.id%}"><img width="28px" src="https://i.imgur.com/NjqLJ32.png"></a>
+                </td>
+              </tr>
             {% endif %}
-            <td style="text-align: center;">
-              <a href="{% url 'editar_produto' produto.id%}"><img width="28px" src="https://i.imgur.com/NjqLJ32.png"></a>
-            </td>
-          </tr>
+          {% endfor %}
+          {% for produto in produtos %}
+            {% if not produto.situacao %}
+              <tr>
+                <td>{{produto.nome}}</td>
+                <td>{{produto.codigo_de_barras}}</td>
+                <td>{{produto.preco}}</td>
+                    <td style="color: #ae0000; text-align: center;">Inativo</td>
+                <td style="text-align: center;">
+                  <a href="{% url 'editar_produto' produto.id%}"><img width="28px" src="https://i.imgur.com/NjqLJ32.png"></a>
+                </td>
+              </tr>
+            {% endif %}
           {% endfor %}
         </table>
       </div>
+
+      <footer>
+          <div class="direitos">
+            <img style="margin-right: 20px;" src="{% static 'img/logo-sci.png'%}" width="80px">
+            <p>SCI Sistemas Contábeis - Todos os Direitos Reservados</p>
+            <img style="margin-left: 20px;" src="{% static 'img/robo-sci-fundo.png'%}" width="25px">
+          </div>
+      </footer>
+      
 
       {% if messages %}
         <div class="popup">

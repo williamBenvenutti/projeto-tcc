@@ -32,7 +32,7 @@
             color: #2d3560;
             background-color: #d7d7d7;
             width: 400px;
-            height: 210px;
+            height: 230px;
             text-align: center;
             box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
             padding: 0;
@@ -75,19 +75,13 @@
             cursor: pointer;
             margin-right: 2px;
         }
-        .vermelho{
-            border-left: 5px solid red;
-        }
-        .amarelo{
-            border-left: 5px solid yellow;
-        }
-        .verde{
-            border-left: 5px solid green;
-        }
         .botao-adiciona-qtd{
             background: transparent;
             border: none;
             cursor: pointer;
+        }
+        .botoes-modal-qtd{
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -113,7 +107,7 @@
             <input type="text" name="search" placeholder="Buscar Produto">
           </div>
           <div class="quantidade">
-            <a class="btn-barra-pesquisa" href="{% url 'cadastro_produtos' %}">HIstórico</a>
+            <a class="btn-barra-pesquisa" href="{% url 'controle_estoque' %}">HIstórico</a>
           </div>
         </div> 
 
@@ -124,8 +118,28 @@
                     <th style="text-align: center; min-width: 50px; max-width: 50px;">Quantidade</th>
                     <th style="text-align: center; min-width: 60px; max-width: 60px;">Ações</th>
                 </tr>
-                {% for produto in produtos %}
-                <tr class="{% if produto in produtos_vermelho %}vermelho{% elif produto in produtos_amarelo %}amarelo{% elif produto in produtos_verde %}verde{% endif %}">
+                {% for produto in produtos_vermelho %}
+                <tr style="border-left: 5px solid red;">
+                    <td>{{produto.nome_produto}}</td>
+                    <td style="text-align: center;">{{produto.quantidade}}</td>
+                    <td style="text-align: center;">
+                        <button class="botao-adiciona-qtd" id="realiza-acao" type="button" onclick="abrirEdicao('{{ produto.id }}','remover')"><img width="30px" src="{% static 'img/remov-item.png'%}"></button>
+                        <button class="botao-adiciona-qtd" id="realiza-acao" type="button" onclick="abrirEdicao('{{ produto.id }}','adicionar')"><img width="30px" src="{% static 'img/add-item.png'%}"></button>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% for produto in produtos_amarelo %}
+                <tr style="border-left: 5px solid yellow;">
+                    <td>{{produto.nome_produto}}</td>
+                    <td style="text-align: center;">{{produto.quantidade}}</td>
+                    <td style="text-align: center;">
+                        <button class="botao-adiciona-qtd" id="realiza-acao" type="button" onclick="abrirEdicao('{{ produto.id }}','remover')"><img width="30px" src="{% static 'img/remov-item.png'%}"></button>
+                        <button class="botao-adiciona-qtd" id="realiza-acao" type="button" onclick="abrirEdicao('{{ produto.id }}','adicionar')"><img width="30px" src="{% static 'img/add-item.png'%}"></button>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% for produto in produtos_verde %}
+                <tr style="border-left: 5px solid green;">
                     <td>{{produto.nome_produto}}</td>
                     <td style="text-align: center;">{{produto.quantidade}}</td>
                     <td style="text-align: center;">
@@ -143,11 +157,21 @@
                 <form id="qtdForm" method="POST">
                     {% csrf_token%}
                     <input class="input-quantidade" type="number" name="quantidade" placeholder="Quantidade">
-                    <input type="submit" style="margin-bottom: 10px;"class="botao-modal-adiciona" value="">
-                    <button type="button" onclick="fecharEdicao()" class="botao-modal-fecha">Cancelar</button>
+                    <div class="botoes-modal-qtd">
+                        <input type="submit" style="margin-bottom: 10px;"class="botao-modal-adiciona" value="">
+                        <button type="button" onclick="fecharEdicao()" class="botao-modal-fecha">Cancelar</button>
+                    </div>
                 </form>
             </div>
         </div>
+
+        <footer>
+            <div class="direitos">
+              <img style="margin-right: 20px;" src="{% static 'img/logo-sci.png'%}" width="80px">
+              <p>SCI Sistemas Contábeis - Todos os Direitos Reservados</p>
+              <img style="margin-left: 20px;" src="{% static 'img/robo-sci-fundo.png'%}" width="25px">
+            </div>
+        </footer>
 
         {% if messages %}
         <div class="popup">

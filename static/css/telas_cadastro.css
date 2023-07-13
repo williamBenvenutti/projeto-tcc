@@ -178,3 +178,27 @@ select{
     opacity: 0;
 }
   
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 8px solid rgb(214, 214, 0) ;
+    background-color: #2d3560;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .direitos{
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+  }

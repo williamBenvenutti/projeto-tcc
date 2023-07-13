@@ -67,6 +67,29 @@
             font-weight: 500;
             text-align: left;
         }
+        footer {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            border-top: 8px solid rgb(214, 214, 0) ;
+            background-color: #2d3560;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+            .direitos{
+            display: flex;
+            align-items: center;
+            margin: 0 auto;
+            justify-content: center;
+            text-align: center;
+        }
   </style>
 </head>
     <body>
@@ -85,7 +108,7 @@
               </ul>
             </nav>
           </header>
-        <a href="#">
+        <a href="{% url 'mostra_estoque'%}">
             <div class="grid">
                 <div class="card">
                     <div class="escrita">
@@ -102,5 +125,12 @@
                 </div>
             </div>
         </a>
+        <footer>
+            <div class="direitos">
+              <img style="margin-right: 20px;" src="{% static 'img/logo-sci.png'%}" width="80px">
+              <p>SCI Sistemas Contábeis - Todos os Direitos Reservados</p>
+              <img style="margin-left: 20px;" src="{% static 'img/robo-sci-fundo.png'%}" width="25px">
+            </div>
+        </footer>
     </body>
 </html>

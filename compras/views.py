@@ -38,8 +38,15 @@ def TelaCompra(request):
         soma_precos = sum(produto.preco for produto in carrinho)
         soma_precos = round(soma_precos, 2)
         soma_precos_formatted = locale.currency(soma_precos, grouping=True)
+        print(soma_precos)
 
-        return render(request, "tela_compra.html", {'carrinho': carrinho, 'soma_precos': soma_precos_formatted})
+        context = {
+            'soma_precos_formatted' : soma_precos_formatted,
+            'soma_precos' : soma_precos,
+            'carrinho' : carrinho
+        }
+
+        return render(request, "tela_compra.html", context)
 
 def RemoverProduto(request, index):
     carrinho.pop(index - 1)
@@ -58,8 +65,12 @@ def FinalizaCompra(request):
         valida_senha = request.POST.get('senha')
         
         colaborador = Colaborador.objects.filter(login=valida_login).first()
-        
-        if colaborador is None:
+
+        if not carrinho:
+            messages.error(request, 'Carrinho vazio!')
+            return redirect('realizar_compras')
+
+        elif colaborador is None:
             messages.error(request, 'Usuario não encontrado!')
             return redirect('realizar_compras')
         

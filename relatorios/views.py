@@ -51,7 +51,6 @@ def RelatorioColab(request):
 
         return response
     
-
 def RelatorioProduto(request):
     if request.method == 'POST':
         produto_id = request.POST.get('produto')

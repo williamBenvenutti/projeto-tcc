@@ -18,6 +18,7 @@ body {
   }
 .realiza-compra {
     display: flex;
+    margin-top: 100px;
     flex-direction: row;
     justify-content: center;
     align-items: center;
@@ -138,73 +139,9 @@ th {
 
 }
 
-
-.modal-content input[type='text'],
-input[type='password'] {
-    padding: 12px;
-    width: 300px;
-    border: 1px solid #2d3560;
-    border-radius: 5px;
-    outline: none;
-    transition: 0.2s;
-    margin-top: 10px;
-}
-
-.botoes-modal {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-}
-
-.botoes-modal button,
-.botoes-modal input[type="submit"] {
-    width: auto;
-    height: auto;
-    padding: 8px 16px;
-    border-radius: 7px;
-    background-color: #2d3560;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.botoes-modal button:hover,
-.botoes-modal input[type="submit"]:hover {
-    background-color: #2d3560;
-}
-.finaliza-compra{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.botao-finaliza-compra{
-    margin-top: 20px;
-    text-align: center;
-    background: #2d3560;
-    border-radius: 5px;
-    color: #ffffff;
-    padding: 10px;
-    text-decoration: none;
-    width: 100px;
-    height: 40px;
-    cursor: pointer;
-    outline: none !important;
-}
-.container-finalizar-compra{
-    margin-top: 10px;
-}
-
-input[type="submit"] {
-    border: none;
-    background-color: #2d3560;
-    color: white; 
-  }
-
   .popup {
     position: fixed;
-    top: 50px;
+    top: 120px;
     right: 50px;
     border-radius: 5px;
     text-align: center;
@@ -217,11 +154,6 @@ input[type="submit"] {
     color: white;
 }
 
-.popup .sucess{
-  background-color: green;
-  padding: 10px;
-  width: 270px;
-}
 .popup .error{
   background-color: #2d3560;
   color: white;
@@ -241,7 +173,7 @@ input[type="submit"] {
 
 
 .botao-compra {
-    margin-top: 10px; /* Ajustado */
+    margin-top: 10px;
     width: 100px;
     height: 40px;
     font-size: 16px;
@@ -267,3 +199,157 @@ input[type="submit"] {
     cursor: pointer;
     margin-right: 2px;
 }
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 8px solid rgb(214, 214, 0) ;
+    background-color: #2d3560;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: 500;
+  }
+  
+  .direitos{
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+    text-align: center;
+  }
+
+  a {
+      text-decoration: none;
+  }
+  
+  .botoes-nav {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+      font-weight: 600;
+      letter-spacing: 1px;
+  }
+  
+  .botoes-nav:hover {
+      opacity: 0.7;
+      border-bottom: 2px solid white;
+  }
+  
+  .logo {
+      font-size: 24px;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      margin-top: 100px;
+  }
+  
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    margin-bottom: 20px;
+  }
+
+  nav {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
+      background: #2d3560;
+      height: 8vh;
+      color: white;
+      font-size: 30px;
+      font-weight: 600;
+      border-bottom: 8px solid rgb(214, 214, 0) ;
+  }
+
+
+  .modal-quantidade{
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    margin: 0 auto;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .editar-quantidade {
+    display: flex;
+    flex-direction: column; /* Adicionado */
+    position: fixed;
+    border-top: 20px solid hsl(231, 36%, 28%);
+    color: #2d3560;
+    background-color: #d7d7d7;
+    width: 400px;
+    height: 260px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+    padding: 5px;
+  }
+  
+    .input-quantidade{
+    padding: 10px;
+    margin: 0 auto;
+    display: flex;
+    width: 180px;
+    height: 18px;
+    color: #2d3560;
+    font-size: 15px;
+    outline-color: #2d3560;
+  }
+  
+    .botao-modal-adiciona {
+    margin-top: 10px; /* Ajustado */
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    background-color: #2d3560;
+    outline: none;
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    margin-left: 2px;
+    cursor: pointer;
+  }
+  
+    .botao-modal-fecha {
+    width: 100px;
+    height: 40px;
+    font-size: 16px;
+    background-color: white;
+    border: 1px solid #2d3560;
+    color: #2d3560;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 2px;
+  }
+  
+    .botao-adiciona-qtd{
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+    .botoes-modal-qtd{
+    margin-top: 10px;
+  }
+  .padding-botoes{
+    margin-bottom: 10px;
+  }

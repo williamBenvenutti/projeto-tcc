@@ -42,21 +42,40 @@
                     <th style="text-align: center;">Editar</th>
                 </tr>
                 {% for colab in colabs %}
-                <tr>
-                    <td>{{colab.nome}}</td>
-                    <td>{{colab.cpf}}</td>
-                    {% if colab.situacao %}
-                        <td style="color: green; text-align: center;">Ativo</td>
-                    {% else %}
-                        <td style="color: red; text-align: center;">Inativo</td>
-                    {% endif %}
-                    <td style="text-align: center;">
-                      <a href="{% url 'editar_colab' colab.id %}"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></a>
-                    </td>
-                </tr>
+                  {% if colab.situacao %}
+                  <tr>
+                      <td>{{colab.nome}}</td>
+                      <td>{{colab.cpf}}</td>
+                      <td style="color: green; text-align: center;">Ativo</td>
+                      <td style="text-align: center;">
+                        <a href="{% url 'editar_colab' colab.id %}"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></a>
+                      </td>
+                  </tr>
+                  {% endif %}
+                {% endfor %}
+
+                {% for colab in colabs %}
+                  {% if not colab.situacao %}
+                  <tr>
+                      <td>{{colab.nome}}</td>
+                      <td>{{colab.cpf}}</td>
+                      <td style="color: #ae0000; text-align: center;">Inativo</td>
+                      <td style="text-align: center;">
+                        <a href="{% url 'editar_colab' colab.id %}"><img width="28px" src="{% static 'img/lapis-editar.png'%}"></a>
+                      </td>
+                  </tr>
+                  {% endif %}
                 {% endfor %}
             </table>
         </div>
+
+        <footer>
+          <div class="direitos">
+            <img style="margin-right: 20px;" src="{% static 'img/logo-sci.png'%}" width="80px">
+            <p>SCI Sistemas Contábeis - Todos os Direitos Reservados</p>
+            <img style="margin-left: 20px;" src="{% static 'img/robo-sci-fundo.png'%}" width="25px">
+          </div>
+        </footer>
 
         {% if messages %}
         <div class="popup">

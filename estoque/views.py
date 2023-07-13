@@ -84,6 +84,17 @@ def RemoverEstoque(request, produto_id):
         return redirect('mostra_estoque')
     else:
         return redirect('mostra_estoque')
+    
+def ControleEstoque(request):
+    estoque_saida = MovimentacoesEstoque.objects.filter(tipo='saida')
+    estoque_entrada = MovimentacoesEstoque.objects.filter(tipo='entrada')
+    estoque = MovimentacoesEstoque.objects.all()
+    context = {
+        'estoque_saida':estoque_saida,
+        'estoque_entrada':estoque_entrada,
+        'estoque':estoque
+    }
+    return render(request, 'controle_estoque.html',context)
         
     
 

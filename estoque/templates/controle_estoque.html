@@ -1,0 +1,162 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Colabs</title>
+    <link rel="stylesheet" href="{% static 'css/telas_listagem.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <style>
+        .modal-quantidade{
+            display: none;
+            flex-direction: column;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            margin: 0 auto;
+            align-items: center;
+            text-align: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+
+        .editar-quantidade {
+            display: flex;
+            flex-direction: column; /* Adicionado */
+            position: fixed;
+            border-top: 20px solid hsl(231, 36%, 28%);
+            color: #2d3560;
+            background-color: #d7d7d7;
+            width: 400px;
+            height: 230px;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(1, 1, 1, 1);
+            padding: 0;
+        }
+        .input-quantidade{
+            margin-top: 20px;
+            padding: 10px;
+            margin: 0 auto;
+            display: flex;
+            width: 180px;
+            height: 18px;
+            color: #2d3560;
+            font-size: 15px;
+            outline-color: #2d3560;
+        }
+        .botao-modal-adiciona {
+            margin-top: 10px; /* Ajustado */
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            background-color: #2d3560;
+            outline: none;
+            color: white;
+            font-weight: 600;
+            border: none;
+            border-radius: 5px;
+            margin-left: 2px;
+            cursor: pointer;
+        }
+
+        .botao-modal-fecha {
+            width: 100px;
+            height: 40px;
+            font-size: 16px;
+            background-color: white;
+            border: 1px solid #2d3560;
+            color: #2d3560;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 2px;
+        }
+        .botao-adiciona-qtd{
+            background: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .botoes-modal-qtd{
+            margin-top: 10px;
+        }
+    </style>
+</head>
+    <body>
+        <header>
+            <nav style="margin-bottom: 30px;">
+              <a class="logo" href="{% url 'dashboard' %}"><img width="180px" src="{% static 'img/logo-sci.png'%}"></a>
+              <ul class="nav-list">
+              <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
+              <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
+              {% if user.is_superuser %}
+              <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
+              {% endif %}
+              <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
+              <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
+              <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
+              </ul>
+            </nav>
+          </header>
+
+        <div class="header">
+          <div class="busca-produto">
+            <input type="text" name="search" placeholder="Buscar Produto">
+          </div>
+        </div> 
+
+        <div class="tabela">
+            <table>
+                <tr>
+                    <th>Produto</th>
+                    <th style="text-align: center;">Ação</th>
+                    <th style="text-align: center;">Quantidade</th>
+                    <th style="text-align: center;">Data</th>
+                    <th style="text-align: center;">Usuario</th>
+                </tr>
+                {% for historico in estoque %}
+                <tr>
+                    <td>{{historico.nome_produto}}</td>
+                    <td style="text-align: center;">{{historico.tipo}}</td>
+                    <td style="text-align: center;">{{historico.quantidade}}</td>
+                    <td style="text-align: center;">{{historico.data_hora}}</td>
+                    <td style="text-align: center;">{{historico.usuario}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+        <footer>
+            <div class="direitos">
+              <img style="margin-right: 20px;" src="{% static 'img/logo-sci.png'%}" width="80px">
+              <p>SCI Sistemas Contábeis - Todos os Direitos Reservados</p>
+              <img style="margin-left: 20px;" src="{% static 'img/robo-sci-fundo.png'%}" width="25px">
+            </div>
+        </footer>
+
+        <script>
+          var input = document.querySelector('.busca-produto input[type="text"]');
+          var table = document.querySelector('table');
+
+          input.addEventListener('input', function() {
+            var searchText = input.value.toLowerCase();
+
+            var rows = table.querySelectorAll('tr:not(:first-child)');
+
+            rows.forEach(function(row) {
+              var name = row.cells[0].textContent.toLowerCase(); 
+
+              if (name.includes(searchText)) {
+                row.style.display = '';
+              } else {
+                row.style.display = 'none';
+              }
+            });
+          });
+        </script>
+    </body>
+</html>
