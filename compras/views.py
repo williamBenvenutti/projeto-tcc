@@ -29,20 +29,25 @@ def TelaCompra(request):
             messages.error(request, 'Produto não encontrado!')
             return redirect('realizar_compras')
         else:
-            carrinho.append(produto)
-            soma_precos = sum(produto.preco for produto in carrinho)
-            soma_precos = round(soma_precos, 2)
+            quantidade_carrinho = CalculaQuantidadeCarrinho(produto, carrinho)
+            quantidade_estoque = Estoque.objects.get(nome_produto=produto)
+
+            if quantidade_carrinho < quantidade_estoque.quantidade:
+                carrinho.append(produto)
+                soma_precos = sum(produto.preco for produto in carrinho)
+                soma_precos = round(soma_precos, 2)
+            else:
+                messages.error(request, 'Estoque Esgotado')
+                return redirect('realizar_compras')
 
         return redirect('realizar_compras')
     else:
         soma_precos = sum(produto.preco for produto in carrinho)
-        soma_precos = round(soma_precos, 2)
-        soma_precos_formatted = locale.currency(soma_precos, grouping=True)
-        print(soma_precos)
+        soma_precos_formatted = locale.currency(soma_precos, grouping=True, symbol=True)
+        print(soma_precos_formatted)
 
         context = {
             'soma_precos_formatted' : soma_precos_formatted,
-            'soma_precos' : soma_precos,
             'carrinho' : carrinho
         }
 
@@ -265,3 +270,11 @@ def EnviarEmailCamisa(colab, produto, quantidade):
     plain_message = strip_tags(mensagem_html)
 
     send_mail(subject, plain_message, from_email, recipient_list, html_message=mensagem_html)
+
+def CalculaQuantidadeCarrinho(produto, carrinho):
+    quantidade = 0
+    for item in carrinho:
+        if produto == item:
+            quantidade+=1
+    return quantidade
+            

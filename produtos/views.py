@@ -26,7 +26,7 @@ def MostraProdutos(request):
             produtos = produtos.filter(codigo_de_barras__icontains=filtro_codigo_barras)
 
         if filtro_preco:
-            produtos = produtos.filter(preco=filtro_preco)
+            produtos = produtos.filter(preco=ConverteValorCifrao(filtro_preco))
 
         if filtro_situacao:
             if filtro_situacao == 'ativo':
@@ -51,7 +51,7 @@ def CadastraProduto(request):
     if request.method == 'POST':
         new_nome_produto = request.POST.get('nome_produto')
         new_codigo_de_barras = request.POST.get('codigo_de_barras')
-        new_preco_produto = float(request.POST.get('preco_produto'))
+        new_preco_produto = request.POST.get('preco_produto')
         new_situacao = True if request.POST.get('situacao') else False
         new_categoria = request.POST.get('categoria')
 
@@ -59,7 +59,7 @@ def CadastraProduto(request):
             novo_produto = Produto(
                 nome = new_nome_produto,
                 codigo_de_barras = new_codigo_de_barras,
-                preco = new_preco_produto,
+                preco = ConverteValorCifrao(new_preco_produto),
                 situacao = new_situacao,
                 categoria = new_categoria
             )
@@ -89,27 +89,21 @@ def CadastraProduto(request):
 
 @login_required(login_url='logar')
 def EditarProduto(request, produto_id):
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
     if request.method == 'POST':
         new_nome_produto = request.POST.get('nome_produto')
         new_codigo_de_barras = request.POST.get('codigo_de_barras')
         new_preco_produto = request.POST.get('preco_produto')
         new_preco_produto = new_preco_produto.strip()
         new_preco_produto = new_preco_produto.replace(',', '.')
-
-        try:
-            new_preco_produto = float(new_preco_produto)
-        except ValueError:
-
-            messages.error(request, 'Preço inválido. Certifique-se de usar um formato válido (por exemplo, 2.99).')
-            return redirect('editar_produto', produto_id=produto_id)
-
         new_situacao = True if request.POST.get('situacao') else False
 
         try:
+            
             Produto.objects.filter(id=produto_id).update(
                 nome=new_nome_produto,
                 codigo_de_barras=new_codigo_de_barras,
-                preco=new_preco_produto,
+                preco=ConverteValorCifrao(new_preco_produto),
                 situacao=new_situacao
             )
             return redirect('mostra_produtos')
@@ -121,5 +115,11 @@ def EditarProduto(request, produto_id):
             return redirect('editar_produto', produto_id=produto_id)
     else:
         produtos = Produto.objects.get(id=produto_id)
+        produtos.preco = locale.currency(produtos.preco, grouping=True, symbol=True)
         return render(request, 'editar_produto.html', {'produtos': produtos})
+    
+def ConverteValorCifrao(valor):
+    valor = valor.replace('R','').replace('$','').replace(' ','').replace(',' ,'.')
+    valor = float(valor)
+    return valor
     

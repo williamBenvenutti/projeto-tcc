@@ -97,7 +97,7 @@
                                             <label class="form-label" for="codigoBarras" style="color: rgb(0, 0, 0);">Código de Barras</label>
                                         </div>
                                         <div class="form-outline mb-3">
-                                            <input value="{{preco_produto|default_if_none:''}}" name="preco_produto" type="number" step="0.01" id="form3Example3" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                            <input value="{{preco_produto|default_if_none:''}}" name="preco_produto" type="text" id="form3Example3" class="form-control form-control-lg" oninput="formatarMoeda(this)" style="color: rgba(0, 0, 0, 0.637);"/>
                                             <label class="form-label" for="form3Example3" style="color: rgb(0, 0, 0);">Preço</label>
                                         </div>
                                         <select name="categoria" class="form-select form-select-md mb-3" style="height: 50px;" required>
@@ -110,7 +110,6 @@
                                             <input value="true" class="form-check-input" name="situacao" type="checkbox" value="true" id="flexCheckDefault" />
                                             <label class="form-check-label" for="flexCheckDefault">Produto Ativo</label>
                                         </div>
-                                    
                                 </div>
                             </div>
                         <div class="card-footer" style="background-color: rgb(253, 253, 253);">
@@ -203,6 +202,22 @@
             }, duration);
         }
     </script> 
+    <script>
+        function formatarMoeda(input) {
+        // Remove caracteres não numéricos do valor digitado
+        let valor = input.value.replace(/\D/g, '');
+        
+        // Verifica se o valor não está vazio
+        if (valor !== '') {
+            // Formata o valor como moeda
+            valor = (parseInt(valor) / 100).toFixed(2).replace('.', ',');
+            valor = 'R$ ' + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+        
+        // Atualiza o valor do input com a máscara
+        input.value = valor;
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>

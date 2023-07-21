@@ -9,7 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
 
-
     <title>Cadastro Colabs</title>
 </head>
 <body>
@@ -107,24 +106,24 @@
                         <div class="card-body">
                             <div class="container">
                                     <div class="form-outline mb-3">
-                                        <input value="{{nome|default_if_none:''}}" name="nome" type="text" id="nomeInput" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <input required value="{{nome|default_if_none:''}}" name="nome" type="text" id="nomeInput" class="form-control form-control-lg is-valid" style="color: rgba(0, 0, 0, 0.637);"/>
                                         <label class="form-label" for="nomeInput" style="color: rgb(0, 0, 0);">Nome Completo</label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input value="{{cpf|default_if_none:''}}" name="cpf" type="text" id="cpfInput" class="form-control form-control-lg cpf" style="color: rgba(0, 0, 0, 0.637);" maxlength="14"/>
+                                        <input required value="{{cpf|default_if_none:''}}" name="cpf" type="text" id="cpfInput" class="form-control form-control-lg cpf" style="color: rgba(0, 0, 0, 0.637);" maxlength="14"/>
                                         <label class="form-label" for="cpfInput" style="color: rgb(0, 0, 0);">CPF</label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input value="{{email|default_if_none:''}}" name="email" type="email" id="form3Example3" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <input required value="{{email|default_if_none:''}}" name="email" type="email" id="form3Example3" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
                                         <label class="form-label" for="form3Example3" style="color: rgb(0, 0, 0);">Email</label>
                                     </div>
                                     <div class="form-outline mb-3">
-                                        <input value="{{login|default_if_none:'-'}}" name="login" type="text" id="loginInput" class="form-control form-control-lg" value=" " style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <input required value="{{login|default_if_none:'-'}}" name="login" type="text" id="loginInput" class="form-control form-control-lg" value=" " style="color: rgba(0, 0, 0, 0.637);"/>
                                         <label class="form-label" for="loginInput" style="color: rgb(0, 0, 0);">Login</label>
                                     </div>
                                     <input style="display: none;" type="password" id="senhaInput" name="senha" placeholder="Senha" value="senhapadrao" required>
                                     <div class="form-check">
-                                        <input class="form-check-input" name="situacao" type="checkbox" value="true" id="flexCheckDefault" checked/>
+                                        <input required class="form-check-input" name="situacao" type="checkbox" value="true" id="flexCheckDefault" checked/>
                                         <label class="form-check-label" for="flexCheckDefault">Colaborador Ativo</label>
                                     </div>
                             </div>

@@ -19,7 +19,7 @@
         <!-- Container wrapper -->
         <div class="container">
         <!-- Navbar brand -->
-        <a class="navbar-brand me-2" href="https://mdbgo.com/" >
+        <a class="navbar-brand me-2" href="{% url 'dashboard' %}" >
             <img
             width="150px"
             src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
@@ -103,6 +103,10 @@
                                         <div class="form-outline mb-3">
                                             <input value="{{username|default_if_none:''}}" name="username" type="text" id="usernameInput" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
                                             <label class="form-label" for="usernameInput" style="color: rgb(0, 0, 0);">Login</label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input value="" name="password" type="password" id="usernameInput" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                            <label class="form-label" for="usernameInput" style="color: rgb(0, 0, 0);">Senha</label>
                                         </div>
                                     
                                 </div>

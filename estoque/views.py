@@ -12,11 +12,19 @@ from django.utils.dateparse import parse_date
 def MostraEstoque(request):
     if request.method == 'GET':
         filtro_situacao = request.GET.get('filtro_situacao')
+        filtro_nome = request.GET.get('filtro_nome')
+        filtro_quantidade = request.GET.get('filtro_quantidade')
         produtos_vermelho = Estoque.objects.filter(quantidade = 0, nome_produto__situacao=True)
         produtos_amarelo = Estoque.objects.filter(Q(quantidade__lt = 6) & Q(quantidade__gt = 0), nome_produto__situacao=True)
         produtos_verde = Estoque.objects.filter(quantidade__gte = 6, nome_produto__situacao=True)
         produtos_geral = Estoque.objects.all()
+
+        if filtro_quantidade:
+            produtos_geral = produtos_geral.filter(quantidade = filtro_quantidade)
         
+        if filtro_nome:
+            produtos_geral = produtos_geral.filter(nome_produto__nome__icontains=filtro_nome)
+
         if filtro_situacao:
             if filtro_situacao == 'esgotado':
                 produtos_geral = Estoque.objects.filter(quantidade = 0, nome_produto__situacao=True)
@@ -112,6 +120,7 @@ def ControleEstoque(request):
         filtro_usuario = request.GET.get('filtro_usuario', None)
 
         estoque = MovimentacoesEstoque.objects.all()
+        estoque = estoque.order_by('-data_hora')
 
         if filtro_nome:
             estoque = estoque.filter(nome_produto__nome__icontains=filtro_nome)

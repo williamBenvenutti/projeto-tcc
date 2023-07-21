@@ -10,68 +10,68 @@
     <body>
         <!-- Navbar -->
         <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2d3560;">
-            <!-- Container wrapper -->
-            <div class="container">
-            <!-- Navbar brand -->
-            <a class="navbar-brand me-2" href="https://mdbgo.com/" >
-                <img
-                width="150px"
-                src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
-                alt="MDB Logo"
-                loading="lazy"
-                style="margin-top: -1px;"
-                />
-            </a>
-        
-            <!-- Toggle button -->
-            <button
-                class="navbar-toggler"
-                type="button"
-                data-mdb-toggle="collapse"
-                data-mdb-target="#navbarButtonsExample"
-                aria-controls="navbarButtonsExample"
-                aria-expanded="false"
-                aria-label="Toggle navigation"
-            >
-                <i class="fas fa-bars"></i>
-            </button>
-        
-            <!-- Collapsible wrapper -->
-            <div class="collapse navbar-collapse" id="navbarButtonsExample">
-                <!-- Left links -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        
-                    </li>
-                </ul>
-                <!-- Left links -->
-        
-                <div class="d-flex align-items-center">
-                <a href="{% url 'gerar_relatorios' %}" class="px-3 me-2" style="color: white;">
-                    RELATÓRIOS
-                </a>
-                <a href="{% url 'mostra_produtos' %}" class="px-3 me-2" style="color: white;">
-                    PRODUTOS
-                </a>
-                <a href="{% url 'mostra_estoque' %}" class="px-3 me-2" style="color: white;">
-                    ESTOQUE
-                </a>
-                <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
-                    COLABORADORES
-                </a>
-                <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
-                    USUÁRIOS
-                </a>
-                <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
-                    Logout
-                </a>
-                </div>
-            </div>
-            <!-- Collapsible wrapper -->
-            </div>
-            <!-- Container wrapper -->
-        </nav>
-        <!-- Navbar -->
+          <!-- Container wrapper -->
+          <div class="container">
+          <!-- Navbar brand -->
+          <a class="navbar-brand me-2" href="{% url 'dashboard' %}" >
+              <img
+              width="150px"
+              src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
+              alt="MDB Logo"
+              loading="lazy"
+              style="margin-top: -1px;"
+              />
+          </a>
+      
+          <!-- Toggle button -->
+          <button
+              class="navbar-toggler"
+              type="button"
+              data-mdb-toggle="collapse"
+              data-mdb-target="#navbarButtonsExample"
+              aria-controls="navbarButtonsExample"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+          >
+              <i class="fas fa-bars"></i>
+          </button>
+      
+          <!-- Collapsible wrapper -->
+          <div class="collapse navbar-collapse" id="navbarButtonsExample">
+              <!-- Left links -->
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                      
+                  </li>
+              </ul>
+              <!-- Left links -->
+      
+              <div class="d-flex align-items-center">
+              <a href="{% url 'gerar_relatorios' %}" class="px-3 me-2" style="color: white;">
+                  RELATÓRIOS
+              </a>
+              <a href="{% url 'mostra_produtos' %}" class="px-3 me-2" style="color: white;">
+                  PRODUTOS
+              </a>
+              <a href="{% url 'mostra_estoque' %}" class="px-3 me-2" style="color: white;">
+                  ESTOQUE
+              </a>
+              <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
+                  COLABORADORES
+              </a>
+              <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
+                  USUÁRIOS
+              </a>
+              <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
+                  Logout
+              </a>
+              </div>
+          </div>
+          <!-- Collapsible wrapper -->
+          </div>
+          <!-- Container wrapper -->
+      </nav>
+      <!-- Navbar -->
 
 
         <div class="container mt-5 mb-5">

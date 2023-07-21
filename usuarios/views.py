@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.db.models import Q
 from estoque.models import Estoque
 from compras.models import RegistroCompra
+from datetime import datetime, timedelta, date
 
 def Login(request):
     if request.method == 'POST':
@@ -27,13 +28,15 @@ def Login(request):
 
 @login_required(login_url='logar')
 def Dashboard(request):
-    estoque = Estoque.objects.filter(quantidade__lte = 6).filter(nome_produto__categoria = "alimento").filter(nome_produto__situacao = True)
+    data_atual = datetime.now().date()
+    estoque = Estoque.objects.filter(quantidade__lte=6, nome_produto__categoria="alimento", nome_produto__situacao=True)
     estoque = estoque.order_by('quantidade')
-    compras = RegistroCompra.objects.order_by('-data_compra')[:5]
-    print(compras)
+
+    compras = RegistroCompra.objects.filter(data_compra__date=data_atual).order_by('-data_compra')
+
     context = {
-        'estoque' : estoque,
-        'compras' : compras
+        'estoque': estoque,
+        'compras': compras
     }
     return render(request, 'dashboard.html', context)
 

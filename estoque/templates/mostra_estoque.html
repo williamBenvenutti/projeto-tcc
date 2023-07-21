@@ -13,7 +13,7 @@
             <!-- Container wrapper -->
             <div class="container">
             <!-- Navbar brand -->
-            <a class="navbar-brand me-2" href="https://mdbgo.com/" >
+            <a class="navbar-brand me-2" href="{% url 'dashboard' %}" >
                 <img
                 width="150px"
                 src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
@@ -105,7 +105,7 @@
                           </td>
                           <td>
                               <select name="filtro_situacao" class="form-select form-select-md" aria-label=".form-select-lg example" style="width: 130px;">
-                                  <option selected>Situação</option>
+                                  <option value="limpar" selected>Situação</option>
                                   <option value="normal">Normal</option>
                                   <option value="atencao">Atenção</option>
                                   <option value="esgotado">Esgotado</option>
