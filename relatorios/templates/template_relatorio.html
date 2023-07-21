@@ -3,28 +3,6 @@
 <head>
     <title>Relatório de Compras</title>
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        table {
-            border-collapse: collapse;
-            width: 45%;
-        }
-        
-        th, td {
-            padding: 8px;
-            max-width: 200px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        
-        th {
-            background-color: #dbe7fd;
-        }
     </style>
 </head>
 <body>
@@ -53,7 +31,7 @@
                         <td>{{ compra.data_compra }}</td>
                         <td>{{ item.produto.nome }}</td>
                         <td>{{ item.quantidade }}</td>
-                        <td>{{ item.preco_individual }}</td>
+                        <td>{{ item.preco_individual_formatado }}</td>
                     </tr>
                 {% endfor %}
             {% endfor %}

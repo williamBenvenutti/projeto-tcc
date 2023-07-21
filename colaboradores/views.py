@@ -7,13 +7,36 @@ from django.contrib import messages
 
 @login_required(login_url='logar')
 def MostraColabs(request):
-    colabs = Colaborador.objects.all()
-    quantidade_colabs = Colaborador.objects.count()
+    if request.method == 'GET':
+        filtro_nome = request.GET.get('filtro_nome', None)
+        filtro_email = request.GET.get('filtro_email', None)
+        filtro_cpf = request.GET.get('filtro_cpf', None)
+        filtro_situacao = request.GET.get('filtro_situacao', None)
+        
+        colabs = Colaborador.objects.all()
 
-    for colab in colabs:
-        colab.cpf = mascaraCPF(colab.cpf)
+        if filtro_nome:
+            colabs = Colaborador.objects.filter(nome__icontains=filtro_nome)
 
-    return render(request, 'mostra_colabs.html', {'colabs':colabs, 'quantidade_colabs':quantidade_colabs})
+        if filtro_email:
+            colabs = Colaborador.objects.filter(email__icontains=filtro_email)
+
+        if filtro_cpf:
+            filtro_cpf = filtro_cpf.replace('.','').replace('-','')
+            colabs = Colaborador.objects.filter(cpf__icontains=filtro_cpf)
+
+        if filtro_situacao:
+            if filtro_situacao == 'ativo':
+                colabs = colabs.filter(situacao=True)
+            elif filtro_situacao == 'inativo':
+                colabs = colabs.filter(situacao=False)
+
+        colabs = colabs.order_by('-situacao','nome')
+
+        for colab in colabs:
+            colab.cpf = mascaraCPF(colab.cpf)
+
+        return render(request, 'mostra_colabs.html', {'colabs':colabs})
 
 @login_required(login_url='logar')
 def CadastraColabs(request):

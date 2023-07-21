@@ -11,7 +11,7 @@ body {
     background-color: #ffffff;
 }
 
-.btn {
+.btn2 {
     background: #295eba;
     background-image: -webkit-linear-gradient(top, #295eba, #1f468e);
     background-image: -moz-linear-gradient(top, #295eba, #1f468e);
@@ -28,7 +28,7 @@ body {
     height: 20px;
 }
 
-.btn:hover {
+.btn2:hover {
     background: #295eba;
     background-image: -webkit-linear-gradient(top, #295eba, #295eba);
     background-image: -moz-linear-gradient(top, #295eba, #295eba);
@@ -88,7 +88,7 @@ th {
     margin-top: 20px;
 }
 
-.container-form input[type="text"],
+/* .container-form input[type="text"],
 input[type="number"],
 input[type="email"],
 input[type="password"],
@@ -101,7 +101,7 @@ select{
     outline: none;
     transition: 0.2s;
     letter-spacing: 1px;
-}
+} */
 
 .container-form .checbox {
     display: flex;
@@ -124,8 +124,8 @@ select{
 
  .button-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: center;
     margin-top: 20px;
     gap: 10px;
   }

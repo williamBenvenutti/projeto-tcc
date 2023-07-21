@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Card com Altura Máxima e Scroll</title>
+    <style>
+        /* CSS personalizado para o corpo do card */
+        .card-body-scrollable {
+            height: 200px;
+            max-height: 200px; /* Altura máxima do corpo do card */
+            overflow-y: auto; /* Habilitar a barra de rolagem vertical */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    Título do Card
+                </div>
+                <div class="card-body card-body-scrollable"> <!-- Adicione a classe 'card-body-scrollable' aqui -->
+                    <!-- Conteúdo do card -->
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce nec ligula id mauris vehicula placerat sit amet ut felis.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <p>Quisque dapibus auctor eros at rhoncus. Proin et convallis metus.</p>
+                    <!-- Adicione mais conteúdo aqui para ver a barra de rolagem funcionando -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

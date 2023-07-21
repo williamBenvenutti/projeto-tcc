@@ -3,95 +3,184 @@
 <html lang="en">
 <head>
     <title>Gerar Relatórios</title>
-    <link rel="stylesheet" href="{% static 'css/navbar.css'%}">
-    <link rel="stylesheet" href="{% static 'css/telas_cadastro.css'%}">
-    <link rel="stylesheet" href="{% static 'css/relatorios.css'%}">
     <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
 </head>
 <body>
-    <header>
-        <nav style="margin-bottom: 30px;">
-          <a class="logo" href="{% url 'dashboard' %}"><img width="180px" src="{% static 'img/logo-sci.png'%}"></a>
-          <ul class="nav-list">
-          <li><a class="botoes-nav" href="{% url 'gerar_relatorios' %}">Relatórios</a></li>
-          <li><a class="botoes-nav" href="{% url 'mostra_colabs' %}">Colaboradores</a></li>
-          {% if user.is_superuser %}
-          <li><a class="botoes-nav" href="{% url 'mostra_usuario' %}">Usuários</a></li>
-          {% endif %}
-          <li><a class="botoes-nav" href="{% url 'mostra_produtos' %}">Produtos</a></li>
-          <li><a class="botoes-nav" href="{% url 'mostra_estoque' %}">Estoque</a></li>
-          <li><a class="btn" href="{% url 'logout' %}">Logout</a></li>
-          </ul>
-        </nav>
-      </header>
-    <div class="container">
-        <h1>Relatório de Colaboradores</h1>
-        <form action="{% url 'relatorio_colab' %}" class="formulario-relatorio" method="post">
-            {%csrf_token%}
-            <div class="opcao">
-            <label>Colaborador</label>
-                <select name="colaborador">
-                {% for colab in colabs %}
-                    <option value="{{colab.id}}" >{{colab.nome}}</option>
-                {% endfor %}
-                </select>
-            </div>
-            <div class="opcao">
-                <label>Data Inicio</label>
-                <input type="date" name="data_inicial">
-            </div>
-            <div class="opcao">
-                <Label>Data Término</Label>
-                <input type="date" name="data_final">
-            </div>
-            <div class="gerar-botao">
-                <input class="botao-gerar" type="submit" value="Gerar">
-            </div>
-        </form>
-    </div>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2d3560;">
+        <!-- Container wrapper -->
+        <div class="container">
+        <!-- Navbar brand -->
+        <a class="navbar-brand me-2" href="https://mdbgo.com/" >
+            <img
+            width="150px"
+            src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
+            alt="MDB Logo"
+            loading="lazy"
+            style="margin-top: -1px;"
+            />
+        </a>
     
-    <div class="container">
-        <h1>Relatório Produtos</h1>
-        <form action="{% url 'relatorio_produto' %}" class="formulario-relatorio" method="post">
-            {%csrf_token%}
-            <div class="opcao">
-                <label>Colaborador</label>
-                    <select name="produto">
-                    {% for produto in produtos %}
-                        <option value="{{produto.id}}" >{{produto.nome}}</option>
-                    {% endfor %}
-                    </select>
-                </div>
-            <div class="opcao">
-                <label>Data Inicio</label>
-                <input type="date" name="data_inicial">
+        <!-- Toggle button -->
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-mdb-toggle="collapse"
+            data-mdb-target="#navbarButtonsExample"
+            aria-controls="navbarButtonsExample"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+        >
+            <i class="fas fa-bars"></i>
+        </button>
+    
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarButtonsExample">
+            <!-- Left links -->
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    
+                </li>
+            </ul>
+            <!-- Left links -->
+    
+            <div class="d-flex align-items-center">
+            <a href="{% url 'gerar_relatorios' %}" class="px-3 me-2" style="color: white;">
+                RELATÓRIOS
+            </a>
+            <a href="{% url 'mostra_produtos' %}" class="px-3 me-2" style="color: white;">
+                PRODUTOS
+            </a>
+            <a href="{% url 'mostra_estoque' %}" class="px-3 me-2" style="color: white;">
+                ESTOQUE
+            </a>
+            <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
+                COLABORADORES
+            </a>
+            <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
+                USUÁRIOS
+            </a>
+            <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
+                Logout
+            </a>
             </div>
-            <div class="opcao">
-                <Label>Data Término</Label>
-                <input type="date" name="data_final">
+        </div>
+        <!-- Collapsible wrapper -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+
+    <div class="container" style="margin-top: 200px;">
+        <div class="row justify-content-center">
+            <div class="col col-sm-4">
+                <form action="{% url 'relatorio_colab' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: #2d3560; color: white; font-weight: 800;">Relatório Colaboradores</div>
+                            <div class="card-body">
+                                <div class="container">
+                                        <select name="colaborador" class="form-select form-select-md mb-3" style="height: 50px; color: black;" required>
+                                            <option value="" selected disabled>Colaborador</option>
+                                            {% for colab in colabs %}
+                                                <option value="{{colab.id}}" >{{colab.nome}}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <div class="form-outline mb-3">
+                                            <input name="data_inicial" type="date" id="di" class="form-control form-control-lg cpf" style="color: rgba(0, 0, 0, 0.637);"/>
+                                            <label class="form-label" for="di" style="color: rgb(0, 0, 0);">Data Inicio</label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input name="data_final" type="date" id="df" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                            <label class="form-label" for="df" style="color: rgb(0, 0, 0);">Data Término</label>
+                                        </div>
+                                </div>
+                            </div>
+                        <div class="card-footer" style="background-color: rgb(253, 253, 253);">
+                            <input type="submit" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;" value="Gerar Relatório">
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="gerar-botao">
-                <input class="botao-gerar" type="submit" value="Gerar">
+            <div class="col col-sm-4">
+                <form action="{% url 'relatorio_compras' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: #2d3560; color: white; font-weight: 800;">Relatório Geral</div>
+                            <div class="card-body">
+                                <div class="container">
+                                    <div class="form-outline mb-3">
+                                        <input name="data_inicial" type="date" id="di" class="form-control form-control-lg cpf" style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <label class="form-label" for="di" style="color: rgb(0, 0, 0);">Data Inicio</label>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <input name="data_final" type="date" id="df" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <label class="form-label" for="df" style="color: rgb(0, 0, 0);">Data Término</label>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card-footer" style="background-color: rgb(253, 253, 253);">
+                            <input type="submit" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;" value="Gerar Relatório">
+                        </div>
+                    </div>
+                </form>
             </div>
-        </form>
+            <div class="col col-sm-4">
+                <form action="{% url 'relatorio_produto' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: #2d3560; color: white; font-weight: 800;">Relatório Produtos</div>
+                            <div class="card-body">
+                                <div class="container">
+                                    <select name="produto" class="form-select form-select-md mb-3" style="height: 50px; color: black;" required>
+                                        <option value="null" selected disabled>Produto</option>
+                                        {% for produto in produtos %}
+                                            <option value="{{produto.id}}">{{produto.nome}}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="form-outline mb-3">
+                                        <input name="data_inicial" type="date" id="di" class="form-control form-control-lg cpf" style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <label class="form-label" for="di" style="color: rgb(0, 0, 0);">Data Inicio</label>
+                                    </div>
+                                    <div class="form-outline mb-3">
+                                        <input name="data_final" type="date" id="df" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                        <label class="form-label" for="df" style="color: rgb(0, 0, 0);">Data Término</label>
+                                    </div>
+                                </div>
+                            </div>
+                        <div class="card-footer" style="background-color: rgb(253, 253, 253);">
+                            <input type="submit" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;" value="Gerar Relatório">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <div class="container">
-        <h1>Relatório Geral</h1>
-        <form action="{% url 'gerar_relatorios' %}" class="formulario-relatorio" method="post">
-            {%csrf_token%}
-            <div class="opcao">
-                <label>Data Inicio</label>
-                <input type="date" name="data_inicial">
-            </div>
-            <div class="opcao">
-                <Label>Data Término</Label>
-                <input type="date" name="data_final">
-            </div>
-            <div class="gerar-botao">
-                <input class="botao-gerar" type="submit" value="Gerar">
-            </div>
-        </form>
-        <h3 style="margin-top: 100px;">Caso queira de todo periodo, deixe a data em branco.</h3>
-    </div>
+
+    <footer class="text-center text-lg-start bg-white text-muted fixed-bottom" style="border-top: 10px solid rgb(218, 203, 0);">
+        <!-- Copyright -->
+        <div class="text-center p-4" style="background-color: #2d3560; color: white;">
+          © 2023 Copyright:
+          <a class="text-reset fw-bold">SCI Sistemas Contábeis</a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+      </script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    </body>
+
 </html>

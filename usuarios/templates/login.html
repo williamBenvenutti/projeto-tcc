@@ -5,87 +5,89 @@
         <title>Login</title>
         <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
     </head>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            background-color: #ffffff;
-            align-items: center;
-            margin: 0 auto;
-            justify-content: center;
-        }
-        .container{
-            display: flex;
-            flex-direction: column;
-            margin: 0 auto;
-            text-align: center;
-            align-items: center;
-            justify-content: center;
-            margin-top: 300px;
-        }
-        input[type="text"],
-        input[type="password"]{
-            margin-bottom: 10px;
-            padding: 10px;
-            width: 250px;
-            border: 1px solid #1f468e;
-            border-radius: 5px;
-            outline: none;
-            transition: 0.2s;
-            letter-spacing: 1px;
-        }
-        .botao-login{
-            margin-top: 10px;
-            background-color: #1f468e;
-            font-size: 17px;
-            text-decoration: none;
-            color: white;
-            padding: 5px;
-            width: 95px !important;
-            border-radius: 7px;
-        }
-        .container-form{
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        input[type="submit"] {
-            border: none;
-            background-color: #1f468e; /* Cor de fundo do botão */
-            color: white; /* Cor do texto do botão */
-            /* Adicione outros estilos personalizados conforme necessário */
-        }
-    </style>
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
     <body>
-        <div class="container">
-            <img  width="500px" src="{% static 'img/logo-sci-azul.png'%}">
-            <form  action="{% url 'logar' %}" method="POST" class="container-form">
-                {% csrf_token %}
-                <input type="text" name="username" placeholder="Usuario">
-                <input type="password" name="password" placeholder="Senha">
-                <input type="submit" class="botao-login" value="Login">
-            </form>
-        </div>
 
-        {% if messages %}
-        <div class="popup">
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <p class="success">{{ message }}</p>
-                {% elif message.tags == 'error' %}
-                    <p class="error">{{ message }}</p>
-                {% else %}
-                    <p>{{ message }}</p>
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2d3560;">
+        <div class="container justify-content-center">
+        <a class="navbar-brand me-2" href="#" >
+            <img
+            width="150px"
+            src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
+            alt="MDB Logo"
+            loading="lazy"
+            style="margin-top: -1px;"
+            />
+        </a>
+    </nav>
+
+    <div class="container" style="margin-top: 200px;">
+        <div class="row">
+            <div class="col col-sm-4">
+                {% if messages %}
+                    <div class="alert alert-danger mt-5" role="alert" style="padding: 6px; width: 200px; text-align: center; border-top: 7px solid red; height: 50px; margin: 0 auto;">          
+                        {% for message in messages %}
+                            {% if message.tags == 'success' %}
+                                {{ message }}
+                            {% elif message.tags == 'error' %}
+                                {{ message }}
+                            {% else %}
+                                <p>{{ message }}</p>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 {% endif %}
-            {% endfor %}
+            </div>
         </div>
-        {% endif %}
+        <div class="row justify-content-center">
+            <div class="col col-sm-4">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center">
+                        <div class="card-header" style="background-color: #2d3560; color: white; font-weight: 800;">Administração Conveniência SCI</div>
+                            <div class="card-body">
+                                <div class="container">
+                                        <div class="form-outline mb-3">
+                                            <input name="username" type="text" id="nomeInput" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);"/>
+                                            <label class="form-label" for="nomeInput" style="color: rgb(0, 0, 0);">Login</label>
+                                        </div>
+                                        <div class="form-outline">
+                                            <input name="password" type="password" id="password" class="form-control form-control-lg cpf" style="color: rgba(0, 0, 0, 0.637);" maxlength="14"/>
+                                            <label class="form-label" for="password" style="color: rgb(0, 0, 0);">Senha</label>
+                                        </div>
+                                </div>
+                            </div>
+                        <div class="card-footer" style="background-color: rgb(253, 253, 253);">
+                            <input type="submit" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;" value="Login">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+        <footer class="text-center text-lg-start bg-white text-muted fixed-bottom" style="border-top: 10px solid rgb(218, 203, 0);">
+            <!-- Copyright -->
+            <div class="text-center p-4" style="background-color: #2d3560; color: white;">
+              © 2023 Copyright:
+              <a class="text-reset fw-bold">SCI Sistemas Contábeis</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+          integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+          </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+          integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+          </script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     </body>
     <script>
         var input = document.querySelector('.busca-produto input[type="text"]');

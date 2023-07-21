@@ -5,25 +5,44 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.utils.dateparse import parse_date
 
 
 @login_required(login_url='logar')
 def MostraEstoque(request):
-    produtos_vermelho = Estoque.objects.filter(quantidade = 0)
-    produtos_amarelo = Estoque.objects.filter(Q(quantidade__lt = 6) & Q(quantidade__gt = 0))
-    produtos_verde = Estoque.objects.filter(quantidade__gte = 6)
-    produtos = Estoque.objects.filter(nome_produto__situacao=True)
-    produtos_geral = Produto.objects.all()
+    if request.method == 'GET':
+        filtro_situacao = request.GET.get('filtro_situacao')
+        produtos_vermelho = Estoque.objects.filter(quantidade = 0, nome_produto__situacao=True)
+        produtos_amarelo = Estoque.objects.filter(Q(quantidade__lt = 6) & Q(quantidade__gt = 0), nome_produto__situacao=True)
+        produtos_verde = Estoque.objects.filter(quantidade__gte = 6, nome_produto__situacao=True)
+        produtos_geral = Estoque.objects.all()
+        
+        if filtro_situacao:
+            if filtro_situacao == 'esgotado':
+                produtos_geral = Estoque.objects.filter(quantidade = 0, nome_produto__situacao=True)
+            elif filtro_situacao == 'atencao':
+                produtos_geral = Estoque.objects.filter(Q(quantidade__lt = 6) & Q(quantidade__gt = 0), nome_produto__situacao=True)
+            elif filtro_situacao == 'normal':
+                produtos_geral = Estoque.objects.filter(quantidade__gte = 6, nome_produto__situacao=True)
 
+        produtos_geral = produtos_geral.order_by('quantidade')
+
+        context = {
+            'produtos_vermelho' : produtos_vermelho,
+            'produtos_amarelo' : produtos_amarelo,
+            'produtos_verde' : produtos_verde,
+            'produtos_geral': produtos_geral
+        }
+
+        return render(request, 'mostra_estoque.html',context)
+
+def MovimentaEstoque(request, produto_id):
+    produto = Estoque.objects.get(id=produto_id)
     context = {
-        'produtos_vermelho' : produtos_vermelho,
-        'produtos_amarelo' : produtos_amarelo,
-        'produtos_verde' : produtos_verde,
-        'produtos' : produtos,
-        'produtos_geral': produtos_geral
+        'produto':produto
     }
+    return render(request, 'movimenta_estoque.html', context)
 
-    return render(request, 'mostra_estoque.html',context)
 
 @login_required(login_url='logar')
 def AdicionaEstoque(request, produto_id):
@@ -51,8 +70,6 @@ def AdicionaEstoque(request, produto_id):
             messages.error(request, 'Produto não encontrado!')
             return redirect('mostra_estoque')
 
-        return redirect('mostra_estoque')
-    else:
         return redirect('mostra_estoque')
     
 @login_required(login_url='logar')
@@ -85,16 +102,29 @@ def RemoverEstoque(request, produto_id):
     else:
         return redirect('mostra_estoque')
     
+@login_required(login_url='logar')
 def ControleEstoque(request):
-    estoque_saida = MovimentacoesEstoque.objects.filter(tipo='saida')
-    estoque_entrada = MovimentacoesEstoque.objects.filter(tipo='entrada')
-    estoque = MovimentacoesEstoque.objects.all()
-    context = {
-        'estoque_saida':estoque_saida,
-        'estoque_entrada':estoque_entrada,
-        'estoque':estoque
-    }
-    return render(request, 'controle_estoque.html',context)
+    if request.method == 'GET':
+        filtro_nome = request.GET.get('filtro_nome', None)
+        filtro_tipo = request.GET.get('filtro_tipo', None)
+        filtro_quantidade = request.GET.get('filtro_quantidade', None)
+        filtro_data = request.GET.get('filtro_data', None)
+        filtro_usuario = request.GET.get('filtro_usuario', None)
+
+        estoque = MovimentacoesEstoque.objects.all()
+
+        if filtro_nome:
+            estoque = estoque.filter(nome_produto__nome__icontains=filtro_nome)
+            print(estoque)
+
+        if filtro_quantidade:
+            estoque = estoque.filter(quantidade=filtro_quantidade)
+
+        context = {
+            'estoque': estoque
+        }
+
+        return render(request, 'controle_estoque.html', context)
         
     
 

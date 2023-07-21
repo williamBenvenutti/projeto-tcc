@@ -18,6 +18,6 @@ class MovimentacoesEstoque(models.Model):
 
     usuario = models.CharField(max_length=100)
     tipo = models.CharField(max_length=20, choices=TIPOS_CHOICES)
-    data_hora = models.DateField(default=timezone.now)
+    data_hora = models.DateTimeField(default=timezone.now)
     nome_produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField()

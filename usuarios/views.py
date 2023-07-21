@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 from estoque.models import Estoque
+from compras.models import RegistroCompra
 
 def Login(request):
     if request.method == 'POST':
@@ -27,8 +28,12 @@ def Login(request):
 @login_required(login_url='logar')
 def Dashboard(request):
     estoque = Estoque.objects.filter(quantidade__lte = 6).filter(nome_produto__categoria = "alimento").filter(nome_produto__situacao = True)
+    estoque = estoque.order_by('quantidade')
+    compras = RegistroCompra.objects.order_by('-data_compra')[:5]
+    print(compras)
     context = {
-        'estoque' : estoque
+        'estoque' : estoque,
+        'compras' : compras
     }
     return render(request, 'dashboard.html', context)
 

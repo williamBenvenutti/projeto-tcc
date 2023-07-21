@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import MostraProdutos, CadastraProduto, EditarProduto
+from .views import MostraProdutos, EditarProduto, CadastraProduto
 
 urlpatterns = [
     path('mostra_produtos/', MostraProdutos, name='mostra_produtos'),
