@@ -4,7 +4,7 @@ from produtos.models import Produto
 from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime, date
 from django.utils.dateparse import parse_date
 
 
@@ -17,7 +17,7 @@ def MostraEstoque(request):
         produtos_vermelho = Estoque.objects.filter(quantidade = 0, nome_produto__situacao=True)
         produtos_amarelo = Estoque.objects.filter(Q(quantidade__lt = 6) & Q(quantidade__gt = 0), nome_produto__situacao=True)
         produtos_verde = Estoque.objects.filter(quantidade__gte = 6, nome_produto__situacao=True)
-        produtos_geral = Estoque.objects.all()
+        produtos_geral = Estoque.objects.filter(nome_produto__situacao=True)
 
         if filtro_quantidade:
             produtos_geral = produtos_geral.filter(quantidade = filtro_quantidade)
@@ -56,10 +56,15 @@ def MovimentaEstoque(request, produto_id):
 def AdicionaEstoque(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST.get('quantidade')
+        quantidade = int(quantidade)
 
         if not quantidade:
             messages.error(request, 'Digite um valor válido!')
-            return redirect('mostra_estoque')
+            return redirect('movimenta_estoque', produto_id = produto_id)
+        
+        elif quantidade <= 0:
+            messages.error(request, 'Digite um valor válido!')
+            return redirect('movimenta_estoque', produto_id = produto_id)
 
         try:
             produto = Estoque.objects.get(id=produto_id)
@@ -84,11 +89,16 @@ def AdicionaEstoque(request, produto_id):
 def RemoverEstoque(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST.get('quantidade')
+        quantidade = int(quantidade)
 
         if not quantidade:
             messages.error(request, 'Digite um valor válido!')
-            return redirect('mostra_estoque')
-
+            return redirect('movimenta_estoque', produto_id = produto_id)
+        
+        elif quantidade <= 0:
+            messages.error(request, 'Digite um valor válido!')
+            return redirect('movimenta_estoque', produto_id = produto_id)
+        
         try:
             produto = Estoque.objects.get(id=produto_id)
             produto.quantidade -= int(quantidade)
@@ -126,8 +136,17 @@ def ControleEstoque(request):
             estoque = estoque.filter(nome_produto__nome__icontains=filtro_nome)
             print(estoque)
 
+        if filtro_tipo:
+            if filtro_tipo == 'entrada':
+                estoque = estoque.filter(tipo = filtro_tipo)
+            elif filtro_tipo == 'saida':
+                estoque = estoque.filter(tipo = filtro_tipo)
+
         if filtro_quantidade:
             estoque = estoque.filter(quantidade=filtro_quantidade)
+        
+        if filtro_usuario:
+            estoque = estoque.filter(username__icontains = filtro_usuario)
 
         context = {
             'estoque': estoque

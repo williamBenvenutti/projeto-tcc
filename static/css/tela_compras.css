@@ -139,39 +139,6 @@ th {
 
 }
 
-  .popup {
-    position: fixed;
-    top: 120px;
-    right: 50px;
-    border-radius: 5px;
-    text-align: center;
-    opacity: 1;
-    transition: opacity 0.3s;
-    z-index: 999;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: white;
-}
-
-.popup .error{
-  background-color: #2d3560;
-  color: white;
-  padding: 10px;
-  width: 270px;
-}
-
-.popup .fade-out {
-    opacity: 0;
-}
-
-.tabela {
-    position: sticky;
-    top: 0;
-    background-color: white;
-}
-
-
 .botao-compra {
     margin-top: 10px;
     width: 100px;
@@ -199,77 +166,6 @@ th {
     cursor: pointer;
     margin-right: 2px;
 }
-
-footer {
-    position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    border-top: 8px solid rgb(214, 214, 0) ;
-    background-color: #2d3560;
-    text-align: center;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    padding: 20px;
-    font-size: 20px;
-    font-weight: 500;
-  }
-  
-  .direitos{
-    display: flex;
-    align-items: center;
-    margin: 0 auto;
-    justify-content: center;
-    text-align: center;
-  }
-
-  a {
-      text-decoration: none;
-  }
-  
-  .botoes-nav {
-      color: white;
-      text-decoration: none;
-      transition: 0.3s;
-      font-weight: 600;
-      letter-spacing: 1px;
-  }
-  
-  .botoes-nav:hover {
-      opacity: 0.7;
-      border-bottom: 2px solid white;
-  }
-  
-  .logo {
-      font-size: 24px;
-      text-transform: uppercase;
-      letter-spacing: 4px;
-      margin-top: 100px;
-  }
-  
-  header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 9999;
-    margin-bottom: 20px;
-  }
-
-  nav {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
-      background: #2d3560;
-      height: 8vh;
-      color: white;
-      font-size: 30px;
-      font-weight: 600;
-      border-bottom: 8px solid rgb(214, 214, 0) ;
-  }
-
 
   .modal-quantidade{
     display: none;

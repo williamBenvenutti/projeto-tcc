@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.db.models import Q
 from estoque.models import Estoque
 from compras.models import RegistroCompra
+from colaboradores.models import Colaborador
 from datetime import datetime, timedelta, date
 
 def Login(request):
@@ -30,13 +31,19 @@ def Login(request):
 def Dashboard(request):
     data_atual = datetime.now().date()
     estoque = Estoque.objects.filter(quantidade__lte=6, nome_produto__categoria="alimento", nome_produto__situacao=True)
-    estoque = estoque.order_by('quantidade')
+    qtd_estoque = (estoque.count()) - 4
+    print(qtd_estoque)
+    estoque = estoque.order_by('quantidade')[:4]
 
-    compras = RegistroCompra.objects.filter(data_compra__date=data_atual).order_by('-data_compra')
+    compras = RegistroCompra.objects.filter(data_compra__date=data_atual).order_by('-data_compra')[:5]
+    colabs = Colaborador.objects.filter(situacao = True)
+    colabs = colabs.order_by('nome')[:5]
 
     context = {
         'estoque': estoque,
-        'compras': compras
+        'compras': compras,
+        'qtd_estoque' : qtd_estoque,
+        'colabs' : colabs
     }
     return render(request, 'dashboard.html', context)
 
@@ -91,13 +98,27 @@ def CadastroUsuario(request):
         
 @login_required(login_url='logar')
 def MostraUsuario(request):
-    if not request.user.is_superuser:
-        messages.error(request, 'Acesso negado!')
-        return redirect('dashboard')
-    else:
+    if request.method == 'GET':
+        filtro_nome = request.GET.get('filtro_nome', None)
+        filtro_sobrenome = request.GET.get('filtro_sobrenome', None)
+        filtro_email = request.GET.get('filtro_email', None)
+
+        print(filtro_nome)
+
         users = User.objects.all()
-        quantidade_usuarios = User.objects.count()
-        return render(request, 'mostra_usuarios.html',{'users':users, 'quantidade_usuarios':quantidade_usuarios})
+
+        if filtro_nome:
+            users = users.filter(first_name__icontains=filtro_nome)
+
+        if filtro_sobrenome:
+            users = users.filter(last_name__icontains=filtro_sobrenome)
+
+        if filtro_email:
+            users = users.filter(email__icontains=filtro_email)
+
+        print(users)
+
+        return render(request, 'mostra_usuarios.html', {'users':users})
 
 @login_required(login_url='logar')
 def EditarUsuario(request, user_id):
@@ -142,16 +163,10 @@ def AlteraSenha(request, user_id):
     if request.method == 'POST':
         nova_senha = request.POST.get('senha')
         valida_senha = request.POST.get('valida_senha')
-
-        if valida_senha != nova_senha:
-            return HttpResponse('As senhas não são iguais!')
-        else:
-            users.set_password(nova_senha)
-            users.save()
-            return redirect('editar_usuario', user_id = user_id)
+        users.set_password(nova_senha)
+        users.save()
+        return redirect('editar_usuario', user_id = user_id)
     
-    else:
-        return render(request, 'altera_senha.html', {'users':users})
  
 def ExcluiUsuario(request, user_id):
     if not request.user.is_superuser:

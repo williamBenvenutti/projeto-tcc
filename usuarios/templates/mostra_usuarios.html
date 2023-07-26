@@ -59,9 +59,11 @@
                 <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
                     COLABORADORES
                 </a>
+                {% if user.is_superuser %}
                 <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
                     USUÁRIOS
                 </a>
+                {% endif %}
                 <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
                     Logout
                 </a>
@@ -78,6 +80,8 @@
           <a href="{% url 'cadastro_usuario'%}" class="btn btn-primary mb-3" style="box-shadow: none; background-color: #2d3560; font-weight: 800;">Adicionar</a>
           <div class="row">
               <div class="col col-lg">
+                <form method="GET">
+                    {% csrf_token %}
                   <table class="table align-middle mb-0">
                       <thead style="background-color: #2d3560; color: white; font-size: 15px;">
                       <tr>
@@ -91,25 +95,25 @@
                       <tr>
                           <td>
                               <div class="form-outline" style="width: 150px; outline: #2d3560;">
-                                  <input type="text" id="formControlDefault" class="form-control"/>
+                                  <input name="filtro_nome" type="text" id="formControlDefault" class="form-control"/>
                                   <label class="form-label" for="formControlDefault">Nome</label>
                               </div>
                           </td>
                           <td>
                               <div class="form-outline" style="width: 150px;">
-                                  <input type="text" id="formControlDefault" class="form-control" />
+                                  <input name="filtro_sobrenome" type="text" id="formControlDefault" class="form-control" />
                                   <label class="form-label" for="formControlDefault">Sobrenome</label>
                               </div>
                           </td>
                           <td>
                               <div class="form-outline" style="width: 150px;">
-                                  <input type="text" id="formControlDefault" class="form-control" />
+                                  <input name="filtro_email" type="email" id="formControlDefault" class="form-control" />
                                   <label class="form-label" for="formControlDefault">Email</label>
                               </div>
                           </td>
                           <td>
                               <button
-                                      type="button"
+                                      type="submit"
                                       class="btn btn-link btn-rounded btn-sm fw-bold"
                                       data-mdb-ripple-color="dark"
                                       style="color:#2d3560;"
@@ -143,6 +147,7 @@
                       {% endfor %}
                       </tbody>
                   </table>
+                  </form>
                   </div>
               </div>
           </div>

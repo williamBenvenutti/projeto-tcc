@@ -1,0 +1,191 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/tela_compras.css'%}">
+    <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
+    <title>Conveniência SCI</title>
+</head>
+
+    <body>
+        <header>
+            <nav style="margin-bottom: 30px;">
+                <img width="200px" src="{% static 'img/logo-sci.png'%}">
+            </nav>
+          </header>
+        <form class="realiza-compra" method="post">
+            {% csrf_token %}
+            <input type="text" placeholder="Codigo de Barras" name="codigo_de_barras">
+            <input type="submit" value="+">
+        </form>
+        <div class="tabela">
+            <table>
+                <tr>
+                    <th style="width: 300px;">Produto</th>
+                    <th style="width: 150px;">Preco</th>
+                    <th style="text-align: center; width: 50px;">Remover</th>
+                </tr>
+                {% for produtos in carrinho %}
+                <tr>
+                    <td>{{produtos.nome}}</td>
+                    <td>{{produtos.preco}}</td>
+                    <td style="text-align: center;">
+                        <a href="{% url 'remover_produto' forloop.counter %}"><img width="30px" src="{% static 'img/remov-item.png'%}"></a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% if soma_precos != 0 %}
+                    <tr class="td-final">
+                        <td style="font-weight: 700;">Preço Final</td>
+                        <td style="font-weight: 700;">{{ soma_precos_formatted }}</td>
+                        <td style="text-align: center;">
+                            <a href="{% url 'limpar_carrinho' %}">
+                                <img width="35px" src="https://i.imgur.com/4YkmoMj.png">
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+
+            </table>
+        </div>
+
+        <div class="container-finalizar-compra" style="margin-top: 20px;">
+            {% if soma_precos != 0 %}
+                <button type="button" class="botao-compra" title="Finalizar a compra!" onclick="openLoginModal('finalizar')">Finalizar</button>
+            {% endif%}
+            <button type="button" class="botao-gasto" title="Mostra quanto foi gasto no período!" onclick="openLoginModal('gastos')">Gastos</button>
+        </div>
+
+        <div id="loginModal" class="modal-quantidade">
+            <div class="editar-quantidade">
+                <h1 style="margin-bottom: 20px; margin-top: 20px;">Realizar Compra</h1>
+                <form id="loginForm" method="POST">
+                    {% csrf_token%}
+                    <input class="input-quantidade" type="text" name="login" placeholder="Login">
+                    <input class="input-quantidade" type="password" name="senha" placeholder="Senha">
+                    <div class="botoes-modal-qtd">
+                        <input id="modalSubmitButton" type="submit" style="margin-bottom: 10px;"class="botao-modal-adiciona" value="">
+                        <button type="button" onclick="closeLoginModal()" class="botao-modal-fecha">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">...</div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        <footer class="text-center text-lg-start bg-white text-muted fixed-bottom" style="border-top: 10px solid rgb(218, 203, 0);">
+            <!-- Copyright -->
+            <div class="text-center p-4" style="background-color: #2d3560; color: white;">
+              © 2023 Copyright:
+              <a class="text-reset fw-bold">SCI Sistemas Contábeis</a>
+            </div>
+            <!-- Copyright -->
+        </footer>
+    
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js">
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+          integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+          </script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+          integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous">
+          </script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.1.0/mdb.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        {% if total is not None %}
+            <div id="modalCompra" class="modal-compra-finalizada">
+                <div class="modal-content">
+                    <p>Total gasto na referência passada: R$ {{total_anterior}} </p>
+                    <p>Total gasto na referência atual: R$ {{total}}</p>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if messages %}
+        <div class="popup">
+            {% for message in messages %}
+                {% if message.tags == 'success' %}
+                    <p class="success">{{ message }}</p>
+                {% elif message.tags == 'error' %}
+                    <p class="error">{{ message }}</p>
+                {% else %}
+                    <p>{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+    
+        <script>
+            function openLoginModal(action) {
+                var modal = document.getElementById("loginModal");
+                var form = document.getElementById('loginForm');
+                var submitButton = document.getElementById('modalSubmitButton');
+
+                if (action === 'finalizar') {
+                    form.action = "{% url 'finaliza_compra' %}";
+                    submitButton.value = 'Comprar';
+                } else if (action === 'gastos') {
+                    form.action = "{% url 'mostra_gasto' %}";
+                    submitButton.value = 'Visualizar';
+                }
+
+                modal.style.display = "flex";
+            }
+
+            function closeLoginModal() {
+                var modal = document.getElementById("loginModal");
+                window.location.href = "{% url 'realizar_compras' %}";
+                modal.style.display = "none";
+            }
+
+            var modalCompra = document.querySelector('#modalCompra');
+
+            setTimeout(function() {
+                modalCompra = modalCompra.style.display = "none";
+                window.location.href = "{% url 'realizar_compras'%}"
+            }, 5000);
+        </script>
+
+        <script>
+            const successMessage = document.querySelector('.success');
+            const errorMessage = document.querySelector('.error');
+
+            if (successMessage) {
+                const duration = 3000;
+
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, duration);
+            }
+
+            if (errorMessage) {
+                const duration = 3000;
+
+                setTimeout(function() {
+                    errorMessage.style.display = 'none';
+                }, duration);
+            }
+        </script>
+    </body>
+</html>

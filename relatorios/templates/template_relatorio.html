@@ -6,36 +6,39 @@
     </style>
 </head>
 <body>
-    <img width="400px" src="{% static 'img/logo-sci.png'%}">
     <h1>Relatório de Compras</h1>
     
-    {% if funcionario.nome %}
-        <h2> Funcionario: {{funcionario.nome}}</h2>
-    {% else %}
-        <h2>Relatório Geral</h2>
-    {% endif %}
+    <h2> Funcionario: {{funcionario.nome}}</h2>
+    <h2>Período: {{ data_inicial|date:"d/m/Y" }} - {{ data_final|date:"d/m/Y" }}</h2>
     <h3>Compras realizadas:</h3>
     <table>
         <thead>
             <tr>
-                <th>Data e Hora</th>
-                <th>Produto</th>
-                <th>Quantidade</th>
-                <th>Preço Individual</th>
+                <th style="text-align: left;">Data e Hora</th>
+                <th style="text-align: left;">Produto</th>
+                <th style="text-align: left;">Quantidade</th>
+                <th style="text-align: right;">Preço Individual</th>
             </tr>
         </thead>
         <tbody>
             {% for compra in compras %}
                 {% for item in compra.itemcompra_set.all %}
                     <tr>
-                        <td>{{ compra.data_compra }}</td>
-                        <td>{{ item.produto.nome }}</td>
-                        <td>{{ item.quantidade }}</td>
-                        <td>{{ item.preco_individual_formatado }}</td>
+                        <td style="text-align: left;">{{ compra.data_compra }}</td>
+                        <td style="text-align: left;">{{ item.produto.nome }}</td>
+                        <td style="text-align: left;">{{ item.quantidade }}</td>
+                        <td style="text-align: right;">{{ item.preco_individual }}</td>
                     </tr>
                 {% endfor %}
             {% endfor %}
+                    <tr>
+                        <td style="text-align: left;">Valor total:</td>
+                        <td style="text-align: left;"></td>
+                        <td style="text-align: left;"></td>
+                        <td style="text-align: right;">{{ venda_total_formatada }}</td>
+                    </tr>
         </tbody>
+        
     </table>
 </body>
 </html>

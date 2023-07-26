@@ -47,6 +47,7 @@ def TelaCompra(request):
         print(soma_precos_formatted)
 
         context = {
+            'soma_precos' : soma_precos,
             'soma_precos_formatted' : soma_precos_formatted,
             'carrinho' : carrinho
         }
@@ -221,20 +222,21 @@ def EnviarEmail(colab, carrinho, final_compra):
     }
 
     mensagem_html = render_to_string('padrao_email.html', context)
+    anexo_email = render_to_string('anexo_email.html', context)
 
-    pdf_bytes = HTML(string=mensagem_html).write_pdf()
+    pdf_bytes = HTML(string=anexo_email).write_pdf()
 
-    mensagem_email = EmailMultiAlternatives(
+    anexo_email = EmailMultiAlternatives(
         subject = subject,
         from_email = from_email,
         to = recipient_list
     )
 
-    mensagem_email.attach_alternative(mensagem_html, 'text/html')
+    anexo_email.attach_alternative(mensagem_html, 'text/html')
 
-    mensagem_email.attach(f'Comprovante de compra-{data_atual}', pdf_bytes,'application/pdf')
+    anexo_email.attach(f'Comprovante de compra-{data_atual}', pdf_bytes,'application/pdf')
 
-    mensagem_email.send()
+    anexo_email.send()
 
 
 def EnviarEmailIngresso(colab, produto, quantidade):

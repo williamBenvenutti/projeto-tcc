@@ -63,9 +63,11 @@
                 <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
                     COLABORADORES
                 </a>
+                {% if user.is_superuser %}
                 <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
                     USUÁRIOS
                 </a>
+                {% endif %}
                 <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
                     Logout
                 </a>
@@ -98,12 +100,24 @@
                                                 </td>
                                             </tr>
                                         {% endfor %}
+                                        {% if qtd_estoque > 0%}
+                                        <tr style="font-size: 17px;">
+                                            <td>
+                                            <div class="d-flex align-items-center">
+                                                <p style="color:#2d3560" class="fw-bold mb-1">Mais</p>
+                                            </div>
+                                            </td>
+                                            <td>
+                                            <p style="color: #2d3560;" class="fw-bold mb-1">{{qtd_estoque}}</p>
+                                            </td>
+                                        </tr>
+                                        {% endif %}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
                         <div class="card-footer" style="background-color: rgb(253, 253, 253);">
-                            <a href="{% url 'mostra_estoque' %}" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;">VER MAIS</a>
+                            <a href="{% url 'mostra_estoque' %}" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;">REABASTECER</a>
                         </div>
                     </div>
                 </div>
@@ -131,9 +145,78 @@
                                 </div>
                             </div>
                         <div class="card-footer" style="background-color: rgb(253, 253, 253);">
-                            <a href="{% url 'gerar_relatorios' %}" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;">VER MAIS</a>
+                            <a href="{% url 'gerar_relatorios' %}" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;">RELATÓRIOS</a>
                         </div>
                     </div>
+                </div>
+                <div class="col col-lg-6">
+                    <div class="card text-center mt-5" style="margin-left: 50px; width: 780px;">
+                        <div class="card-header" style="background-color: #2d3560; color: white; font-weight: 800;">Colaboradores</div>
+                        <div class="card-body">
+                            <div class="container">
+                                <table class="table align-middle mt-0">
+                                    <tbody>
+                                    {% for colab in colabs%}
+                                        <tr style="font-size: 17px;">
+                                            <td>
+                                            <div class="d-flex align-items-center">
+                                                <p class="fw-bold mb-1">{{colab.nome}}</p>
+                                            </div>
+                                            </td>
+                                            <td>
+                                            <p class="fw-normal mb-1">{{colab.email}}</p>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <span class="badge badge-success d-flex" style="width: 50px; text-align: center; justify-content: center; font-size: 12px;">ATIVO</span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-footer" style="background-color: rgb(253, 253, 253);">
+                            <a href="{% url 'mostra_colabs' %}" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;">VER MAIS</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5" style="margin-left: 50px;">
+                <div class="col col-lg-3">
+                    <a href="{% url 'cadastro_produtos'%}">
+                        <div class="card text-center mt-5" style="margin-left: 0px; border-left: 15px solid #2d3560; width: 370px;">
+                            <div class="card-body">
+                                <h2 style="color: #2d3560;">Cadastrar Produto</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-lg-3">
+                    <a href="{% url 'cadastro_usuario'%}">
+                        <div class="card text-center mt-5" style="margin-left: 10px; border-left: 15px solid #2d3560; width: 370px;">
+                            <div class="card-body">
+                                <h2 style="color: #2d3560;">Cadastrar Usuário</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-lg-3">
+                    <a href="{% url 'cadastro_usuario'%}">
+                        <div class="card text-center mt-5" style="margin-left: 10px; border-left: 15px solid #2d3560; width: 370px;">
+                            <div class="card-body">
+                                <h2 style="color: #2d3560;">Cadastrar Colab</h2>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-lg-3">
+                    <a href="{% url 'cadastro_usuario'%}">
+                        <div class="card text-center mt-5" style="margin-left: 10px; border-left: 15px solid #2d3560; width: 370px;">
+                            <div class="card-body">
+                                <h2 style="color: #2d3560;">Reports <img width="30px" src="https://i.imgur.com/xMSDkzI.png"></h2>
+                            </div>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>

@@ -45,10 +45,24 @@ def CadastraColabs(request):
         new_cpf = request.POST.get('cpf').replace('.', '').replace('-', '')
         new_email = request.POST.get('email')
         new_login = request.POST.get('login')
-        new_senha = request.POST.get('senha')
+        new_senha = GerarSenha(new_cpf, new_login)
+        print(new_senha)
+
         new_situacao = True if request.POST.get('situacao') else False
 
         if len(new_cpf) < 11:
+            context = {
+                'nome': new_nome,
+                'cpf': new_cpf,
+                'login': new_login,
+                'situacao': new_situacao,
+                'email' : new_email
+            }
+            
+            messages.error(request, 'CPF Inválido!')
+            return render(request, 'cadastro_colabs.html', context)
+        
+        if not validaCpf(new_cpf):
             context = {
                 'nome': new_nome,
                 'cpf': new_cpf,
@@ -154,3 +168,42 @@ def mascaraCPF(cpf):
     cpf = str(cpf)
     cpf_formatado = "{}.{}.{}-{}".format(cpf[:3], cpf[3:6], cpf[6:9], cpf[9:])
     return cpf_formatado
+
+
+def validaCpf(cpf):
+
+    if cpf == cpf[0] * 11:
+        return False
+    soma = 0
+    for i in range(9):
+        soma += int(cpf[i]) * (10 - i)
+
+    primeiro_digito = 11 - (soma % 11)
+
+    if primeiro_digito > 9:
+        primeiro_digito = 0
+
+    soma = 0
+    for i in range(10):
+        soma += int(cpf[i]) * (11 - i)
+    segundo_digito = 11 - (soma % 11)
+    if segundo_digito > 9:
+        segundo_digito = 0
+
+    if int(cpf[-2]) == primeiro_digito and int(cpf[-1]) == segundo_digito:
+        return True
+    else:
+        return False
+    
+def GerarSenha(cpf, login):
+    nova_senha = ''
+
+    for digito in login:
+        if digito == '.':
+            break
+        else:
+            nova_senha += digito
+    
+    nova_senha += cpf[:3]
+    
+    return nova_senha

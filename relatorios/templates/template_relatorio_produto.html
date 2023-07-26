@@ -16,9 +16,10 @@
 <body>
     <img width="400px" src="{% static 'img/logo-sci.png'%}">
     <h1>Relatório de Vendas</h1>
-    
 
     <h2>Produto: {{ produto.nome }}</h2>
+    <h2>Período: {{ data_inicial|date:"d/m/Y" }} - {{ data_final|date:"d/m/Y" }}</h2>
+
     <h3>Vendas:</h3>
     <table>
         <thead>
@@ -41,7 +42,7 @@
         </tbody>
     </table>
 
-    <h2>Total de vendas: {{ venda_total }}</h2>
+    <h2>Total de vendas: {{ venda_total_formatada }}</h2>
     <h2>Quantidade de vendas: {{ quantidade_vendida }}</h2>
 
 </body>

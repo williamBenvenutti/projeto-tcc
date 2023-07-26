@@ -18,7 +18,7 @@
         <!-- Container wrapper -->
         <div class="container">
         <!-- Navbar brand -->
-        <a class="navbar-brand me-2" href="https://mdbgo.com/" >
+        <a class="navbar-brand me-2" href="{% url 'dashboard' %}" >
             <img
             width="150px"
             src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
@@ -64,9 +64,11 @@
             <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
                 COLABORADORES
             </a>
+            {% if user.is_superuser %}
             <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
                 USUÁRIOS
             </a>
+            {% endif %}
             <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
                 Logout
             </a>
@@ -77,26 +79,30 @@
         <!-- Container wrapper -->
     </nav>
     <!-- Navbar -->
-
-    <div class="container justify-content-center align-items-center">
-        <div class="row row-md-3 justify-content-center">
+    
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="row justify-content-center">
             <div class="col justify-content-center">
                 {% if messages %}
-                    <div class="alert alert-danger mt-4" role="alert"
-                     style="padding: 6px; width: 200px; text-align: center; border-top: 7px solid red; height: 50px; margin: 0 auto; position:fixed; margin: 0 auto;">          
-                        {% for message in messages %}
-                            {% if message.tags == 'success' %}
-                                {{ message }}
-                            {% elif message.tags == 'error' %}
-                                {{ message }}
-                            {% else %}
-                                <p>{{ message }}</p>
-                            {% endif %}
-                        {% endfor %}
+                    <div class="justify-content-center align-items-center" style="height: 100vh; position: fixed; top: 100px; left: 44.5%;">
+                        <div class="alert alert-danger mt-4" role="alert"
+                             style="padding: 6px; width: 200px; text-align: center; border-top: 7px solid red;">
+                            {% for message in messages %}
+                                {% if message.tags == 'success' %}
+                                    {{ message }}
+                                {% elif message.tags == 'error' %}
+                                    {{ message }}
+                                {% else %}
+                                    <p>{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
                     </div>
                 {% endif %}
             </div>
         </div>
+    </div>
+    <div class="container justify-content-center align-items-center">
         <div class="row justify-content-center" style="margin-top: 170px;">
             <div class="col col-sm-4">
                 <form method="POST">
@@ -128,7 +134,7 @@
                                     </div>
                             </div>
                         </div>
-                    <div class="card-footer" style="background-color: rgb(253, 253, 253);">
+                    <div class="card-footer" style="background-color: #fdfdfd;">
                         <input type="submit" class="btn btn-primary" style="background-color: #2d3560; box-shadow: none;" value="Cadastrar">
                         <a href="{% url 'mostra_colabs' %}" class="btn btn-outline-primary" data-mdb-ripple-color="dark" style="color: #2d3560; border-color: #2d3560;">Voltar</a>
                     </div>

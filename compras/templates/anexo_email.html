@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Compra realizada na conveniência</title>
+</head>
+    <body>
+        <p style="font-size: 20px;">Relatório de compra Realizada na conveniencia</p>
+        <div class="tabela">
+            <table>
+                <tr>
+                    <th style="width: 200px;">Produto</th>
+                    <th style="text-align: right; width: 100px;">Preço</th>
+                </tr>
+                {% for produto in carrinho%}
+                <tr>
+                    <td style="padding: 2px;">{{produto.nome}}</td>
+                    <td style="text-align: right; padding: 2px;">{{produto.preco}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <br>
+        <hr>
+        <h1 style="font-size: 20px;">Total da compra: {{final_compra}}</h1>
+    </body>
+</html>

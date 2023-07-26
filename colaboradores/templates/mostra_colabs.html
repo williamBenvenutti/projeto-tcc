@@ -6,6 +6,16 @@
     <link rel="icon" href="{% static 'img/logo-sci-site.png'%}" type="image/x-icon">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.4.0/mdb.min.css" rel="stylesheet" />
+    <style>
+        body {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
+  
+        body::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
 </head>
     <body>
         <!-- Navbar -->
@@ -13,7 +23,7 @@
             <!-- Container wrapper -->
             <div class="container">
             <!-- Navbar brand -->
-            <a class="navbar-brand me-2" href="https://mdbgo.com/" >
+            <a class="navbar-brand me-2" href="{% url 'dashboard' %}" >
                 <img
                 width="150px"
                 src="https://www.sci.com.br/arquivo/banner/56/95294737.png"
@@ -59,9 +69,11 @@
                 <a href="{% url 'mostra_colabs' %}" class="px-3 me-2" style="color: white;">
                     COLABORADORES
                 </a>
+                {% if user.is_superuser %}
                 <a href="{% url 'mostra_usuario' %}" class="px-3 me-2" style="color: white;">
                     USUÁRIOS
                 </a>
+                {% endif %}
                 <a href="{% url 'logout' %}" class="btn btn-secondary me-3" style="background-color: white;">
                     Logout
                 </a>
@@ -73,7 +85,28 @@
         </nav>
         <!-- Navbar -->
 
-
+        <div class="container d-flex justify-content-center align-items-center">
+            <div class="row justify-content-center">
+                <div class="col justify-content-center">
+                    {% if messages %}
+                        <div class="justify-content-center align-items-center" style="height: 100vh; position: fixed; top: 90px; left: 44.5%;">
+                            <div class="alert alert-danger mt-4" role="alert"
+                                 style="padding: 6px; width: 200px; text-align: center; border-top: 7px solid red;">
+                                {% for message in messages %}
+                                    {% if message.tags == 'success' %}
+                                        {{ message }}
+                                    {% elif message.tags == 'error' %}
+                                        {{ message }}
+                                    {% else %}
+                                        <p>{{ message }}</p>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
         <div class="container mt-5 mb-7">
           <a href="{% url 'cadastra_colabs'%}" class="btn btn-primary mb-3" style="box-shadow: none; background-color: #2d3560; font-weight: 800;">Adicionar</a>
           <div class="row">
@@ -87,7 +120,7 @@
                           <th><strong>EMAIL</strong></th>
                           <th><strong>CPF</strong></th>
                           <th><strong>SITUAÇÃO</strong></th>
-                          <th><strong>AÇÕES</strong></th>
+                          <th style="text-align: left;"><strong>AÇÕES</strong></th>
                       </tr>
                       </thead>
                       <tbody>
@@ -120,9 +153,9 @@
                           <td>
                               <input
                                       type="submit"
-                                      class="btn btn-link btn-rounded btn-sm fw-bold"
+                                      class="btn-link btn-rounded btn-sm fw-bold"
                                       data-mdb-ripple-color="dark"
-                                      style="color:#2d3560;"
+                                      style="color:#2d3560; outline: none; border: none; background-color: white;"
                                       value="FILTRAR"
                                       >
                           </td>
@@ -142,11 +175,11 @@
                               <td style="text-align: center;">
                                   <span class="badge badge-success d-flex" style="width: 50px; text-align: center; justify-content: center; font-size: 12px;">ATIVO</span>
                               </td>
-                              <td>
+                              <td style="justify-content: left; align-items: left;">
                                 <a
-                                        class="btn btn-link btn-rounded btn-sm fw-bold"
+                                        class="btn-link btn-rounded btn-sm fw-bold"
                                         data-mdb-ripple-color="dark"
-                                        style="color:#2d3560;"
+                                        style="color:#2d3560;;"
                                         href="{% url 'editar_colab' colab.id %}"
                                         >
                                 EDITAR
@@ -172,7 +205,7 @@
                               </td>
                               <td>
                                   <a
-                                          class="btn btn-link btn-rounded btn-sm fw-bold"
+                                          class="btn-link btn-rounded btn-sm fw-bold"
                                           data-mdb-ripple-color="dark"
                                           style="color:#2d3560;"
                                           href="{% url 'editar_colab' colab.id %}"
@@ -200,20 +233,6 @@
           <!-- Copyright -->
         </footer>
 
-        {% if messages %}
-        <div class="popup">
-            {% for message in messages %}
-                {% if message.tags == 'success' %}
-                    <p class="success">{{ message }}</p>
-                {% elif message.tags == 'error' %}
-                    <p class="error">{{ message }}</p>
-                {% else %}
-                    <p>{{ message }}</p>
-                {% endif %}
-            {% endfor %}
-        </div>
-        {% endif %}
-
         <script>
           var input = document.querySelector('.busca-produto input[type="text"]');
           var table = document.querySelector('table');
@@ -235,8 +254,8 @@
           });
         </script>
         <script>
-          const successMessage = document.querySelector('.success');
-          const errorMessage = document.querySelector('.error');
+          const successMessage = document.querySelector('.alert');
+          const errorMessage = document.querySelector('.alert');
 
           if (successMessage) {
               const duration = 3000;
