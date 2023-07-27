@@ -45,6 +45,8 @@ def CadastraColabs(request):
         new_cpf = request.POST.get('cpf').replace('.', '').replace('-', '')
         new_email = request.POST.get('email')
         new_login = request.POST.get('login')
+        new_codigo_de_barras = request.POST.get('codigo_de_barras')
+
         new_senha = GerarSenha(new_cpf, new_login)
         print(new_senha)
 
@@ -56,7 +58,8 @@ def CadastraColabs(request):
                 'cpf': new_cpf,
                 'login': new_login,
                 'situacao': new_situacao,
-                'email' : new_email
+                'email' : new_email,
+                'codigo_de_barras' : new_codigo_de_barras
             }
             
             messages.error(request, 'CPF Inválido!')
@@ -68,7 +71,8 @@ def CadastraColabs(request):
                 'cpf': new_cpf,
                 'login': new_login,
                 'situacao': new_situacao,
-                'email' : new_email
+                'email' : new_email,
+                'codigo_de_barras' : new_codigo_de_barras
             }
             
             messages.error(request, 'CPF Inválido!')
@@ -82,7 +86,8 @@ def CadastraColabs(request):
                 email=new_email,
                 login=new_login,
                 senha=senha_criptografada,
-                situacao=new_situacao
+                situacao=new_situacao,
+                codigo_de_barras = new_codigo_de_barras
             )
             messages.error(request, 'Colaborador cadastrado!')
             return redirect('mostra_colabs')
@@ -94,7 +99,8 @@ def CadastraColabs(request):
                     'cpf': new_cpf,
                     'login': new_login,
                     'situacao': new_situacao,
-                    'email' : new_email
+                    'email' : new_email,
+                    'codigo_de_barras' : new_codigo_de_barras
                 }
                 messages.error(request, 'CPF já em uso!')
                 return render(request, 'cadastro_colabs.html', context)
@@ -105,7 +111,8 @@ def CadastraColabs(request):
                     'cpf': new_cpf,
                     'login': new_login,
                     'situacao': new_situacao,
-                    'email' : new_email
+                    'email' : new_email,
+                    'codigo_de_barras' : new_codigo_de_barras
                 }
                 messages.error(request, 'Usuario ja em uso!')
                 return render(request, 'cadastro_colabs.html', context)
@@ -115,7 +122,8 @@ def CadastraColabs(request):
                     'cpf': new_cpf,
                     'login': new_login,
                     'situacao': new_situacao,
-                    'email' : new_email
+                    'email' : new_email,
+                    'codigo_de_barras' : new_codigo_de_barras
                 }
                 messages.error(request, 'Email ja em uso!')
                 return render(request, 'cadastro_colabs.html', context)
@@ -132,6 +140,7 @@ def EditarColab(request, colab_id):
         new_cpf = new_cpf.replace('.', '').replace('-', '')
         new_email = request.POST.get('email')
         new_login = request.POST.get('login')
+        new_codigo_de_barras = request.POST.get('codigo_de_barras')
         new_situacao = True if request.POST.get('situacao') != None else False
 
         try:
@@ -140,7 +149,8 @@ def EditarColab(request, colab_id):
                 cpf=new_cpf,
                 login=new_login,
                 situacao=new_situacao,
-                email=new_email
+                email=new_email,
+                codigo_de_barras=new_codigo_de_barras
             )
             messages.error(request, 'Colaborador editado!')
             return redirect('mostra_colabs')

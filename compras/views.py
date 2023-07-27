@@ -13,16 +13,17 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
-from django.conf import settings
 from weasyprint import HTML
+import cv2
+from pyzbar.pyzbar import decode
 
 carrinho = list()
 
 def TelaCompra(request):
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
-    
+
     if request.method == 'POST':
-        codigo_de_barras_digitado = request.POST.get('codigo_de_barras')
+        codigo_de_barras_digitado = LeituraCodigoBarras()
         produto = Produto.objects.filter(codigo_de_barras=codigo_de_barras_digitado).first()
 
         if produto is None or produto.situacao == False:
@@ -66,22 +67,17 @@ def FinalizaCompra(request):
     locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
     data_limite = verificaData()
     
-    if request.method == 'POST':
-        valida_login = request.POST.get('login')
-        valida_senha = request.POST.get('senha')
-        
-        colaborador = Colaborador.objects.filter(login=valida_login).first()
-
+    if request.method == 'GET':
         if not carrinho:
             messages.error(request, 'Carrinho vazio!')
             return redirect('realizar_compras')
-
-        elif colaborador is None:
-            messages.error(request, 'Usuario não encontrado!')
-            return redirect('realizar_compras')
         
-        elif check_password(valida_senha, colaborador.senha) == False:
-            messages.error(request, 'Senha incorreta!')
+        codigo_colaborador = LeituraCodigoBarras()
+        print(codigo_colaborador)
+        colaborador = Colaborador.objects.filter(codigo_de_barras=codigo_colaborador).first()
+
+        if colaborador is None:
+            messages.error(request, 'Usuario não encontrado!')
             return redirect('realizar_compras')
         
         elif colaborador.situacao == False:
@@ -126,8 +122,7 @@ def FinalizaCompra(request):
             carrinho.clear()
 
             return render(request, 'tela_compra.html', {'total':total, 'carrinho':carrinho, 'total_anterior':total_anterior})
-    else:
-        return redirect('realizar_compras')
+
 
 def MostraTotalGasto(request):
     if request.method == 'POST':
@@ -279,4 +274,21 @@ def CalculaQuantidadeCarrinho(produto, carrinho):
         if produto == item:
             quantidade+=1
     return quantidade
-            
+
+def LeituraCodigoBarras():
+    cap = cv2.VideoCapture(0)
+    cap.set(3, 840)
+    cap.set(4, 480)
+    camera = True
+    codigo_de_barras = ''
+    while camera:
+        sucess, frame = cap.read()
+        for code in decode(frame):
+            codigo_de_barras = code.data.decode('utf-8')
+            print(codigo_de_barras)
+            camera = False 
+        if sucess:
+            cv2.imshow('Testando leitor de codigo de barras', frame)
+            cv2.waitKey(1)
+    cv2.destroyAllWindows()
+    return codigo_de_barras

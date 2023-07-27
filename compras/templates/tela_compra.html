@@ -254,10 +254,6 @@
                 <div class="col w-100">
                     <form class="realiza-compra" method="post">
                         {% csrf_token %}
-                        <div class="form-outline" style="width: 70%;">
-                            <input name="codigo_de_barras" type="text" id="inputValor" class="form-control form-control-lg" style="color: rgba(0, 0, 0, 0.637);" />
-                            <label class="form-label" for="nomeInput" style="color: rgb(0, 0, 0);">Código de Barras</label>
-                        </div>
                         <input type="submit" value="ADD" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg">
                     </form>
                 </div>
@@ -310,11 +306,11 @@
         <div class="container d-flex justify-content-center align-items-center mt-3">
             <div class="row">
                 <div class="col">
-                    <button type="button" class="btn btn-outline-primary btn-lg" style="color: #2d3560; border-color: #2d3560;" title="Mostra quanto foi gasto no período!" onclick="openLoginModal('gastos')">Gastos</button>
+                    <a  class="btn btn-outline-primary btn-lg" style="color: #2d3560; border-color: #2d3560;" title="Mostra quanto foi gasto no período!">Gastos</a>
                     {% if soma_precos == 0 %}
-                    <button type="button" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg mt-3 disabled" onclick="openLoginModal('finalizar')" title="Finalizar a compra!">Finalizar</button>
+                    <a href="{% url 'finaliza_compra'%}" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg mt-3 disabled" title="Finalizar a compra!">Finalizar</a>
                     {% else %}
-                    <button id="btnFinalizar" type="button" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg mt-3" onclick="openLoginModal('finalizar')" title="Finalizar a compra!">Finalizar</button>
+                    <a href="{% url 'finaliza_compra'%}" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg mt-3" title="Finalizar a compra!">Finalizar</a>
                     {% endif%}
                 </div>
             </div>
@@ -436,5 +432,6 @@
                 }, duration);
             }
         </script>
+        
     </body>
 </html>
