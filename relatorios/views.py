@@ -132,6 +132,8 @@ def RelatorioProduto(request):
     
 
 def GerarRelatorioCompras(request):
+    locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
+
     if request.method == 'POST':
         data_inicial = request.POST.get('data_inicial')
         data_final = request.POST.get('data_final')
@@ -150,6 +152,12 @@ def GerarRelatorioCompras(request):
         compras = RegistroCompra.objects.filter(data_compra__range=(data_inicial, data_final+add_dia))
         itens = ItemCompra.objects.filter(compra__in=compras)
 
+        venda_total = 0
+
+        for item in itens:
+            venda_total += item.quantidade * item.preco_individual
+
+        venda_total_formatada = locale.currency(venda_total, grouping=True, symbol=True)
         
 
         locale.setlocale(locale.LC_ALL, 'pt_BR.UTF-8')
@@ -161,6 +169,7 @@ def GerarRelatorioCompras(request):
             'itens': itens,
             'data_inicial': data_inicial, 
             'data_final': data_final, 
+            'venda_total_formatada' : venda_total_formatada
         }
 
         data_inicial_str = data_inicial.strftime('%Y-%m-%d')

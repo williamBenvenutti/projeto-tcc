@@ -254,7 +254,7 @@
                 <div class="col w-100">
                     <form class="realiza-compra" method="post">
                         {% csrf_token %}
-                        <input type="submit" value="ADD" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg">
+                        <input type="submit" value="LER CÓDIGO DE BARRAS" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg">
                     </form>
                 </div>
             </div>
@@ -306,7 +306,7 @@
         <div class="container d-flex justify-content-center align-items-center mt-3">
             <div class="row">
                 <div class="col">
-                    <a  class="btn btn-outline-primary btn-lg" style="color: #2d3560; border-color: #2d3560;" title="Mostra quanto foi gasto no período!">Gastos</a>
+                    <a  href="{% url 'mostra_gasto'%}" class="btn btn-outline-primary btn-lg" style="color: #2d3560; border-color: #2d3560;" title="Mostra quanto foi gasto no período!">Gastos</a>
                     {% if soma_precos == 0 %}
                     <a href="{% url 'finaliza_compra'%}" style="box-shadow: none; background-color: #2d3560; font-weight: 800;" class="btn btn-primary btn-lg mt-3 disabled" title="Finalizar a compra!">Finalizar</a>
                     {% else %}

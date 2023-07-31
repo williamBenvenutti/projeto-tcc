@@ -64,19 +64,6 @@ def CadastraColabs(request):
             
             messages.error(request, 'CPF Inválido!')
             return render(request, 'cadastro_colabs.html', context)
-        
-        if not validaCpf(new_cpf):
-            context = {
-                'nome': new_nome,
-                'cpf': new_cpf,
-                'login': new_login,
-                'situacao': new_situacao,
-                'email' : new_email,
-                'codigo_de_barras' : new_codigo_de_barras
-            }
-            
-            messages.error(request, 'CPF Inválido!')
-            return render(request, 'cadastro_colabs.html', context)
 
         try:
             senha_criptografada = make_password(new_senha)
@@ -89,7 +76,6 @@ def CadastraColabs(request):
                 situacao=new_situacao,
                 codigo_de_barras = new_codigo_de_barras
             )
-            messages.error(request, 'Colaborador cadastrado!')
             return redirect('mostra_colabs')
         
         except Exception as e:
@@ -152,7 +138,6 @@ def EditarColab(request, colab_id):
                 email=new_email,
                 codigo_de_barras=new_codigo_de_barras
             )
-            messages.error(request, 'Colaborador editado!')
             return redirect('mostra_colabs')
         
         except Exception as e:
@@ -180,30 +165,29 @@ def mascaraCPF(cpf):
     return cpf_formatado
 
 
-def validaCpf(cpf):
+# def validaCpf(cpf):
+#     if cpf == cpf[0] * 11:
+#         return False
+#     soma = 0
+#     for i in range(9):
+#         soma += int(cpf[i]) * (10 - i)
 
-    if cpf == cpf[0] * 11:
-        return False
-    soma = 0
-    for i in range(9):
-        soma += int(cpf[i]) * (10 - i)
+#     primeiro_digito = 11 - (soma % 11)
 
-    primeiro_digito = 11 - (soma % 11)
+#     if primeiro_digito > 9:
+#         primeiro_digito = 0
 
-    if primeiro_digito > 9:
-        primeiro_digito = 0
+#     soma = 0
+#     for i in range(10):
+#         soma += int(cpf[i]) * (11 - i)
+#     segundo_digito = 11 - (soma % 11)
+#     if segundo_digito > 9:
+#         segundo_digito = 0
 
-    soma = 0
-    for i in range(10):
-        soma += int(cpf[i]) * (11 - i)
-    segundo_digito = 11 - (soma % 11)
-    if segundo_digito > 9:
-        segundo_digito = 0
-
-    if int(cpf[-2]) == primeiro_digito and int(cpf[-1]) == segundo_digito:
-        return True
-    else:
-        return False
+#     if int(cpf[-2]) == primeiro_digito and int(cpf[-1]) == segundo_digito:
+#         return True
+#     else:
+#         return False
     
 def GerarSenha(cpf, login):
     nova_senha = ''

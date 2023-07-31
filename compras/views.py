@@ -32,7 +32,9 @@ def TelaCompra(request):
         else:
             quantidade_carrinho = CalculaQuantidadeCarrinho(produto, carrinho)
             quantidade_estoque = Estoque.objects.get(nome_produto=produto)
-
+            produto.nome = produto.nome[:17]
+            produto.nome += '.'
+            print(produto.nome)
             if quantidade_carrinho < quantidade_estoque.quantidade:
                 carrinho.append(produto)
                 soma_precos = sum(produto.preco for produto in carrinho)
@@ -125,20 +127,18 @@ def FinalizaCompra(request):
 
 
 def MostraTotalGasto(request):
-    if request.method == 'POST':
-        valida_login = request.POST.get('login')
-        valida_senha = request.POST.get('senha')
+    if request.method == 'GET':
+        codigo_colaborador = LeituraCodigoBarras()
         
-        colaborador = Colaborador.objects.filter(login=valida_login).first()
+        colaborador = Colaborador.objects.filter(codigo_de_barras=codigo_colaborador).first()
 
         if colaborador is None:
-            return HttpResponse('Usuário não encontrado')
-        
-        elif check_password(valida_senha, colaborador.senha) == False:
-            return HttpResponse('Senha Incorreta')
+            messages.error(request, 'Usuario não encontrado!')
+            return redirect('realizar_compras')
         
         elif colaborador.situacao == False:
-            return HttpResponse('Colaborador está inativo!')
+            messages.error(request, 'Colaborador Inativo!')
+            return redirect('realizar_compras')
         else:
             data_limite = verificaData()
 
@@ -291,4 +291,5 @@ def LeituraCodigoBarras():
             cv2.imshow('Testando leitor de codigo de barras', frame)
             cv2.waitKey(1)
     cv2.destroyAllWindows()
+    print(codigo_de_barras)
     return codigo_de_barras
